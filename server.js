@@ -5,6 +5,8 @@ import dotenv from 'dotenv';
 import express from 'express';
 import rateLimit from 'express-rate-limit';
 
+import { isCheckDisabled, checkDisabledMsg } from './api/_common/check-config.js';
+
 // Load environment variables from .env file
 dotenv.config();
 
@@ -146,6 +148,11 @@ app.get(API_DIR, async (req, res) => {
 
   const handlerPromises = Object.entries(handlers).map(async ([route, handler]) => {
     const routeName = route.replace(`${API_DIR}/`, '');
+
+    if (isCheckDisabled(routeName)) {
+      results[routeName] = { skipped: checkDisabledMsg(routeName) };
+      return;
+    }
 
     try {
       const result = await Promise.race([

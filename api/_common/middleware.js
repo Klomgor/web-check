@@ -1,4 +1,5 @@
 import { bracketIPv6 } from './parse-target.js';
+import { getCheckName, isCheckDisabled, checkDisabledMsg } from './check-config.js';
 
 const normalizeUrl = (url) => {
   const withScheme = url.startsWith('http') ? url : `https://${url}`;
@@ -63,6 +64,11 @@ const commonMiddleware = (handler) => {
       return response.status(200).json({ skipped: disabledMsg });
     }
 
+    const checkName = getCheckName(request.url);
+    if (isCheckDisabled(checkName)) {
+      return response.status(200).json({ skipped: checkDisabledMsg(checkName) });
+    }
+
     const queryParams = request.query || {};
     const rawUrl = queryParams.url;
 
@@ -90,6 +96,13 @@ const commonMiddleware = (handler) => {
     if (DISABLE_EVERYTHING) {
       return { statusCode: 200, body: JSON.stringify({ skipped: disabledMsg }), headers };
     }
+
+    const checkName = getCheckName(event.path || event.rawUrl);
+    if (isCheckDisabled(checkName)) {
+      const body = JSON.stringify({ skipped: checkDisabledMsg(checkName) });
+      return { statusCode: 200, body, headers };
+    }
+
     if (!rawUrl) {
       return { statusCode: 500, body: JSON.stringify({ error: 'No URL specified' }), headers };
     }
