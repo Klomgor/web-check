@@ -3,6 +3,7 @@ import { getLocation, parseShodanResults } from 'client/utils/result-processor';
 
 import ServerLocationCard from 'client/components/Results/ServerLocation';
 import ServerInfoCard from 'client/components/Results/ServerInfo';
+import VulnerabilitiesCard from 'client/components/Results/Vulnerabilities';
 import HostNamesCard from 'client/components/Results/HostNames';
 import WhoIsCard from 'client/components/Results/WhoIs';
 import LighthouseCard from 'client/components/Results/Lighthouse';
@@ -171,6 +172,7 @@ export const jobs: JobSpec[] = [
     cards: [
       card('hosts', 'Host Names', ['server'], HostNamesCard, { pick: at('hostnames') }),
       card('server-info', 'Server Info', ['server'], ServerInfoCard, { pick: at('serverInfo') }),
+      card('vulnerabilities', 'Vulnerabilities', ['server', 'security'], VulnerabilitiesCard),
     ],
     fetcher: fetchAndProcess('shodan?url=${ip}', parseShodanResults),
   },
