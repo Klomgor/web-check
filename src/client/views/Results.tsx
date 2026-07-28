@@ -145,14 +145,23 @@ const Results = (props: { address?: string }): JSX.Element => {
     return settled.length >= entries.length / 2 && dead.length / settled.length >= 0.9;
   }, [jobsState]);
 
+  // Every check settled as skipped, e.g. when the admin has blocked the target host
+  const allSkipped = useMemo(() => {
+    const entries = Object.values(jobsState);
+    return entries.length > 0 && entries.every((e) => e?.state === 'skipped');
+  }, [jobsState]);
+  const skipReason = allSkipped ? Object.values(jobsState).find((e) => e?.error)?.error : undefined;
+
   // Pick the highest-priority error state, if any
-  let errorKind: 'invalid' | 'unreachable' | 'api-down' | 'disabled' | null = null;
+  let errorKind: 'invalid' | 'unreachable' | 'api-down' | 'disabled' | 'blocked' | null = null;
   if (keys.disableEverything) {
     errorKind = 'disabled';
   } else if (addressType === 'err') {
     errorKind = 'invalid';
   } else if (ipLookupError) {
     errorKind = 'unreachable';
+  } else if (allSkipped) {
+    errorKind = 'blocked';
   } else if (apiUnreachable) {
     errorKind = 'api-down';
   }
@@ -185,7 +194,9 @@ const Results = (props: { address?: string }): JSX.Element => {
           </Heading>
         )}
       </Nav>
-      {errorKind && <NoResults kind={errorKind} address={address} error={ipLookupError} />}
+      {errorKind && (
+        <NoResults kind={errorKind} address={address} error={ipLookupError || skipReason} />
+      )}
       <ProgressBar loadStatus={loadingJobs} showModal={showErrorModal} showJobDocs={showInfo} />
       <Loader show={loadingJobs.filter((j) => j.state !== 'loading').length < 5} />
       <AdvisoryPanel findings={findings} onJumpTo={jumpToCard} />
@@ -209,13 +220,15 @@ const Results = (props: { address?: string }): JSX.Element => {
           ))}
         </ResultsMasonryGrid>
       </ResultsContent>
-      <ViewRaw
-        everything={renderable.map((r) => ({
-          id: r.card.id,
-          title: r.card.title,
-          result: r.data,
-        }))}
-      />
+      {!errorKind && (
+        <ViewRaw
+          everything={renderable.map((r) => ({
+            id: r.card.id,
+            title: r.card.title,
+            result: r.data,
+          }))}
+        />
+      )}
       <AdditionalResources url={address} />
 
       <Modal isOpen={modalOpen} closeModal={() => setModalOpen(false)}>

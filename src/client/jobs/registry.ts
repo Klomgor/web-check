@@ -51,7 +51,7 @@ const fetchAndProcess =
     const url = path.replace(/\$\{(ip|url)\}/g, encodeURIComponent(target));
     const res = await fetch(`${ctx.api}/${url}`, { signal: ctx.signal });
     const raw = await parseJson(res);
-    return raw?.error ? raw : process(raw);
+    return raw?.error || raw?.skipped ? raw : process(raw);
   };
 
 // Sleep ms, reject AbortError if signal fires
