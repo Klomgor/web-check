@@ -4,6 +4,7 @@
  * VITE_DISABLE_EVERYTHING is set - turns off the whole instance
  * API_DISABLED_CHECKS - comma seperated list of checks to skip
  * API_ENABLED_CHECKS - comma seperated list of checks to run (all others will be skipped)
+ * API_BLOCKED_HOSTS - comma seperated hosts that must never be scanned (domains, IPs or CIDR ranges)
  * Or the target is a private IP and the check needs a public one (like for external API)
  *
  * Note that the get-ip check is probably always needed. Since IP used for most checks.
@@ -20,6 +21,10 @@ const getSkipMessage = (skipReason, check) => {
   // The check can't run against private IPs
   if (skipReason === 'private-ip') {
     return `The ${check} check can\'t run for private hosts`;
+  }
+  // Admin has blocked this host from being scanned
+  if (skipReason === 'target-blocked') {
+    return 'Scanning this host is not permitted on this instance.';
   }
   // The instance is turned off :(
   if (skipReason === 'instance-fucked') {
@@ -58,6 +63,44 @@ const isCheckDisabled = (check) => {
   return enabled.length > 0 && check !== 'get-ip' && !enabled.includes(check);
 };
 
+const isEverythingDisabled = () => {
+  return !!process.env.VITE_DISABLE_EVERYTHING;
+};
+
+/* Gets the hostname from the target, or null if it can't be parsed */
+const getHost = (target) => {
+  try {
+    return parseTarget(target).hostname;
+  } catch {
+    return null;
+  }
+};
+
+/* Matches IPv4 addresses, like 192.168.0.1 */
+const ipv4 = /^\d+\.\d+\.\d+\.\d+$/;
+
+/* Turns an IPv4 address into a number, for range comparisons */
+const ipToNum = (ip) => ip.split('.').reduce((num, octet) => num * 256 + Number(octet), 0);
+
+/* Returns true if an IPv4 host falls inside a CIDR range (like 192.168.0.0/16) */
+const inCidrRange = (host, entry) => {
+  const [range, bits] = entry.split('/');
+  if (!bits || !ipv4.test(host) || !ipv4.test(range)) return false;
+  const mask = -1 << (32 - Number(bits));
+  return (ipToNum(host) & mask) === (ipToNum(range) & mask);
+};
+
+/* Returns true if the admin has blocked this host with API_BLOCKED_HOSTS */
+const isBlockedTarget = (target) => {
+  const blocked = checkListFromEnv('API_BLOCKED_HOSTS');
+  if (!blocked.length) return false;
+  const host = getHost(target);
+  if (!host) return false;
+  return blocked.some(
+    (entry) => host === entry || host.endsWith(`.${entry}`) || inCidrRange(host, entry),
+  );
+};
+
 /* Checks which send the target to an outside service, so are useless for private hosts */
 const publicOnlyChecks = [
   'archives',
@@ -75,15 +118,11 @@ const publicOnlyChecks = [
 
 /* Returns true if the target is a private IP, localhost or a .local address */
 const isPrivateTarget = (target) => {
-  let host;
-  try {
-    host = parseTarget(target).hostname;
-  } catch {
-    return false;
-  }
+  const host = getHost(target);
+  if (!host) return false;
   if (host === 'localhost' || host.endsWith('.local')) return true;
   if (host.includes(':')) return host === '::1' || /^f[cde]/.test(host);
-  if (!/^\d+\.\d+\.\d+\.\d+$/.test(host)) return false;
+  if (!ipv4.test(host)) return false;
   const [a, b] = host.split('.').map(Number);
   if (a === 10 || a === 127) return true;
   if (a === 172 && b >= 16 && b <= 31) return true;
@@ -95,11 +134,17 @@ const isPrivateTarget = (target) => {
 /* Checks every reason a check might not run, returns skip status with a reason */
 export const shouldSkip = (path, target) => {
   const check = getCheckName(path);
-  if (process.env.VITE_DISABLE_EVERYTHING)
+  if (isEverythingDisabled()) {
     return { skip: true, reason: getSkipMessage('instance-fucked') };
-  if (isCheckDisabled(check))
+  }
+  if (isBlockedTarget(target)) {
+    return { skip: true, reason: getSkipMessage('target-blocked') };
+  }
+  if (isCheckDisabled(check)) {
     return { skip: true, reason: getSkipMessage('check-disabled', check) };
-  if (publicOnlyChecks.includes(check) && isPrivateTarget(target))
+  }
+  if (publicOnlyChecks.includes(check) && isPrivateTarget(target)) {
     return { skip: true, reason: getSkipMessage('private-ip', check) };
+  }
   return { skip: false };
 };

@@ -62,9 +62,8 @@ const commonMiddleware = (handler) => {
       return response.status(500).json({ error: 'No URL specified' });
     }
 
-    const url = normalizeUrl(rawUrl);
-
     try {
+      const url = normalizeUrl(rawUrl);
       const result = await Promise.race([handler(url, request), createTimeoutPromise(TIMEOUT)]);
       response.status(200).json(typeof result === 'object' ? result : JSON.parse(result));
     } catch (error) {
@@ -88,8 +87,8 @@ const commonMiddleware = (handler) => {
       return { statusCode: 500, body: JSON.stringify({ error: 'No URL specified' }), headers };
     }
 
-    const url = normalizeUrl(rawUrl);
     try {
+      const url = normalizeUrl(rawUrl);
       const result = await Promise.race([
         handler(url, event, context),
         createTimeoutPromise(TIMEOUT),
