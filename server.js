@@ -149,7 +149,7 @@ app.get(API_DIR, async (req, res) => {
   const handlerPromises = Object.entries(handlers).map(async ([route, handler]) => {
     const routeName = route.replace(`${API_DIR}/`, '');
 
-    const { skip, reason } = shouldSkip(routeName);
+    const { skip, reason } = shouldSkip(routeName, url);
     if (skip) {
       results[routeName] = { skipped: reason };
       return;

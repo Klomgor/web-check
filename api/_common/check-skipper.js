@@ -9,6 +9,8 @@
  * Note that the get-ip check is probably always needed. Since IP used for most checks.
  */
 
+import { parseTarget } from './parse-target.js';
+
 /* The list of response messages, for the skip reason in API response */
 const getSkipMessage = (skipReason, check) => {
   // Check disabled by admin with black/white list
@@ -56,16 +58,48 @@ const isCheckDisabled = (check) => {
   return enabled.length > 0 && check !== 'get-ip' && !enabled.includes(check);
 };
 
-/* Placeholder, will skip checks which can't run against private IPs */
-const isPrivateTarget = () => false;
+/* Checks which send the target to an outside service, so are useless for private hosts */
+const publicOnlyChecks = [
+  'archives',
+  'block-lists',
+  'dnssec',
+  'location',
+  'quality',
+  'rank',
+  'shodan',
+  'subdomains',
+  'threats',
+  'tls-labs',
+  'whois',
+];
+
+/* Returns true if the target is a private IP, localhost or a .local address */
+const isPrivateTarget = (target) => {
+  let host;
+  try {
+    host = parseTarget(target).hostname;
+  } catch {
+    return false;
+  }
+  if (host === 'localhost' || host.endsWith('.local')) return true;
+  if (host.includes(':')) return host === '::1' || /^f[cde]/.test(host);
+  if (!/^\d+\.\d+\.\d+\.\d+$/.test(host)) return false;
+  const [a, b] = host.split('.').map(Number);
+  if (a === 10 || a === 127) return true;
+  if (a === 172 && b >= 16 && b <= 31) return true;
+  if (a === 192 && b === 168) return true;
+  if (a === 169 && b === 254) return true;
+  return a === 100 && b >= 64 && b <= 127;
+};
 
 /* Checks every reason a check might not run, returns skip status with a reason */
-export const shouldSkip = (path) => {
+export const shouldSkip = (path, target) => {
   const check = getCheckName(path);
   if (process.env.VITE_DISABLE_EVERYTHING)
     return { skip: true, reason: getSkipMessage('instance-fucked') };
   if (isCheckDisabled(check))
     return { skip: true, reason: getSkipMessage('check-disabled', check) };
-  if (isPrivateTarget(path)) return { skip: true, reason: getSkipMessage('private-ip') };
+  if (publicOnlyChecks.includes(check) && isPrivateTarget(target))
+    return { skip: true, reason: getSkipMessage('private-ip', check) };
   return { skip: false };
 };

@@ -50,13 +50,13 @@ const commonMiddleware = (handler) => {
 
   // Vercel
   const vercelHandler = async (request, response) => {
-    const { skip, reason } = shouldSkip(request.url);
+    const queryParams = request.query || {};
+    const rawUrl = queryParams.url;
+
+    const { skip, reason } = shouldSkip(request.url, rawUrl);
     if (skip) {
       return response.status(200).json({ skipped: reason });
     }
-
-    const queryParams = request.query || {};
-    const rawUrl = queryParams.url;
 
     if (!rawUrl) {
       return response.status(500).json({ error: 'No URL specified' });
@@ -79,7 +79,7 @@ const commonMiddleware = (handler) => {
     const queryParams = event.queryStringParameters || event.query || {};
     const rawUrl = queryParams.url;
 
-    const { skip, reason } = shouldSkip(event.path || event.rawUrl);
+    const { skip, reason } = shouldSkip(event.path || event.rawUrl, rawUrl);
     if (skip) {
       return { statusCode: 200, body: JSON.stringify({ skipped: reason }), headers };
     }
