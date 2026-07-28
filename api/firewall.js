@@ -3,39 +3,76 @@ import { httpGet } from './_common/http.js';
 import { parseTarget } from './_common/parse-target.js';
 import { upstreamError } from './_common/upstream.js';
 
-// WAF signatures as [header, needle, name], a null needle matches any value
+// WAF signatures as [header, needle, name]; needle is a lowercase substring
+// Ported from wafw00f's passive header/cookie fingerprints :)
 const WAF_SIGNATURES = [
   ['server', 'cloudflare', 'Cloudflare'],
-  ['x-powered-by', 'AWS Lambda', 'AWS WAF'],
-  ['server', 'AkamaiGHost', 'Akamai'],
-  ['server', 'Sucuri', 'Sucuri'],
-  ['server', 'BarracudaWAF', 'Barracuda WAF'],
-  ['server', 'BIG-IP', 'F5 BIG-IP'],
+  ['cf-ray', null, 'Cloudflare'],
+  ['set-cookie', '__cfduid', 'Cloudflare'],
+  ['server', 'sucuri', 'Sucuri CloudProxy WAF'],
   ['x-sucuri-id', null, 'Sucuri CloudProxy WAF'],
   ['x-sucuri-cache', null, 'Sucuri CloudProxy WAF'],
-  ['server', 'FortiWeb', 'Fortinet FortiWeb WAF'],
-  ['server', 'Imperva', 'Imperva SecureSphere WAF'],
-  ['x-protected-by', 'Sqreen', 'Sqreen'],
+  ['server', 'imperva', 'Imperva SecureSphere WAF'],
+  ['x-iinfo', null, 'Imperva Incapsula'],
+  ['x-cdn', 'incapsula', 'Imperva Incapsula'],
+  ['set-cookie', 'incap_ses', 'Imperva Incapsula'],
+  ['set-cookie', 'visid_incap', 'Imperva Incapsula'],
+  ['server', 'akamaighost', 'Akamai'],
+  ['x-powered-by', 'aws lambda', 'AWS WAF'],
+  ['server', 'big-ip', 'F5 BIG-IP'],
+  ['set-cookie', 'bigipserver', 'F5 BIG-IP'],
+  ['server', 'barracudawaf', 'Barracuda WAF'],
+  ['set-cookie', 'barra_counter_session', 'Barracuda WAF'],
+  ['set-cookie', 'bni_persistence', 'Barracuda WAF'],
+  ['set-cookie', 'bni__barracuda_lb_cookie', 'Barracuda WAF'],
+  ['server', 'fortiweb', 'Fortinet FortiWeb WAF'],
+  ['set-cookie', 'fortiwafsid', 'Fortinet FortiWeb WAF'],
+  ['via', 'ns-cache', 'Citrix NetScaler'],
+  ['set-cookie', 'citrix_ns_id', 'Citrix NetScaler'],
+  ['set-cookie', 'ns_af=', 'Citrix NetScaler'],
+  ['server', 'reblaze secure web gateway', 'Reblaze WAF'],
   ['x-waf-event-info', null, 'Reblaze WAF'],
-  ['set-cookie', '_citrix_ns_id', 'Citrix NetScaler'],
-  ['x-denied-reason', null, 'WangZhanBao WAF'],
-  ['x-wzws-requested-method', null, 'WangZhanBao WAF'],
+  ['set-cookie', 'rbzid', 'Reblaze WAF'],
+  ['x-sl-compstate', null, 'Radware AppWall'],
+  ['server', 'wallarm', 'Wallarm WAF'],
+  ['server', 'mod_security', 'ModSecurity'],
+  ['x-protected-by', 'sqreen', 'Sqreen'],
+  ['server', 'ddos-guard', 'DDoS-Guard WAF'],
+  ['set-cookie', '__ddg', 'DDoS-Guard WAF'],
+  ['server', 'qrator', 'QRATOR WAF'],
+  ['server', 'protected by comodo waf', 'Comodo cWatch WAF'],
+  ['server', 'zscaler', 'Zscaler'],
+  ['server', 'imunify360', 'Imunify360 WAF'],
+  ['server', 'arvancloud', 'ArvanCloud WAF'],
+  ['server', 'sonicwall', 'SonicWall'],
+  ['x-datapower-transactionid', null, 'IBM WebSphere DataPower'],
+  ['server', 'naxsi', 'NAXSI WAF'],
+  ['server', 'safe3waf', 'Safe3 Web Application Firewall'],
   ['x-webcoment', null, 'Webcoment Firewall'],
-  ['server', 'Yundun', 'Yundun WAF'],
+  ['server', 'yundun', 'Yundun WAF'],
   ['x-yd-waf-info', null, 'Yundun WAF'],
   ['x-yd-info', null, 'Yundun WAF'],
-  ['server', 'Safe3WAF', 'Safe3 Web Application Firewall'],
-  ['server', 'NAXSI', 'NAXSI WAF'],
-  ['x-datapower-transactionid', null, 'IBM WebSphere DataPower'],
-  ['server', 'QRATOR', 'QRATOR WAF'],
-  ['server', 'ddos-guard', 'DDoS-Guard WAF'],
+  ['server', 'qianxin-waf', '360 WangZhanBao WAF'],
+  ['wzws-ray', null, '360 WangZhanBao WAF'],
+  ['x-powered-by-360wzb', null, '360 WangZhanBao WAF'],
+  ['x-denied-reason', null, 'WangZhanBao WAF'],
+  ['x-wzws-requested-method', null, 'WangZhanBao WAF'],
+  ['x-powered-by-anquanbao', null, 'Anquanbao WAF'],
+  ['server', 'yunjiasu', 'Baidu Yunjiasu WAF'],
+  ['server', 'nsfocus', 'NSFocus WAF'],
+  ['server', 'jiasule-waf', 'Jiasule WAF'],
+  ['set-cookie', '__jsluid', 'Jiasule WAF'],
+  ['set-cookie', 'jsl_tracking', 'Jiasule WAF'],
+  ['server', 'safedog', 'SafeDog WAF'],
+  ['set-cookie', 'safedog-flow-item', 'SafeDog WAF'],
+  ['set-cookie', 'yunsuo_session', 'Yunsuo WAF'],
 ];
 
-// Match a header value (string or array) against a needle
+// Match a header value (string or array) against a needle, case-insensitively
 const matches = (value, needle) => {
   if (!value) return false;
   const values = Array.isArray(value) ? value : [value];
-  return values.some((v) => !needle || String(v).includes(needle));
+  return values.some((v) => !needle || String(v).toLowerCase().includes(needle));
 };
 
 const firewallHandler = async (url) => {
