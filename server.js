@@ -10,6 +10,10 @@ import { shouldSkip } from './api/_common/check-skipper.js';
 // Load environment variables from .env file
 dotenv.config();
 
+// Log unexpected errors, instead of letting em crash everything
+process.on('uncaughtException', (error) => console.error('Uncaught exception:', error));
+process.on('unhandledRejection', (error) => console.error('Unhandled rejection:', error));
+
 // Create the Express app
 const app = express();
 

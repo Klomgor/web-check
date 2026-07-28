@@ -64,13 +64,14 @@ const isCheckDisabled = (check) => {
 };
 
 const isEverythingDisabled = () => {
-  return !!process.env.VITE_DISABLE_EVERYTHING;
+  const value = process.env.VITE_DISABLE_EVERYTHING;
+  return !!value && value !== 'false';
 };
 
-/* Gets the hostname from the target, or null if it can't be parsed */
+/* Gets the hostname from the target (minus any trailing dot), or null if it can't be parsed */
 const getHost = (target) => {
   try {
-    return parseTarget(target).hostname;
+    return parseTarget(target).hostname.replace(/\.$/, '');
   } catch {
     return null;
   }
