@@ -393,11 +393,11 @@ const About = (): JSX.Element => {
               <a
                 target="_blank"
                 rel="noreferrer"
-                href="https://cloud.google.com/api-gateway/docs/authenticate-api-keys"
+                href="https://developers.google.com/speed/docs/insights/v5/get-started"
               >
                 A Google API key
               </a>
-              <i> Used to return quality metrics for a site</i>
+              <i> With the PageSpeed Insights API enabled, used to return quality metrics for a site</i>
             </li>
             <li>
               <code>REACT_APP_SHODAN_API_KEY</code>:{' '}
