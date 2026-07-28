@@ -397,7 +397,10 @@ const About = (): JSX.Element => {
               >
                 A Google API key
               </a>
-              <i> With the PageSpeed Insights API enabled, used to return quality metrics for a site</i>
+              <i>
+                {' '}
+                With the PageSpeed Insights API enabled, used to return quality metrics for a site
+              </i>
             </li>
             <li>
               <code>REACT_APP_SHODAN_API_KEY</code>:{' '}
