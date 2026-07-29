@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 
 import colors from 'client/styles/colors';
 import Heading from 'client/components/Form/Heading';

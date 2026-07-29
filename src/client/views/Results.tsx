@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, type ReactNode } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import styled from '@emotion/styled';
 import { ToastContainer } from 'react-toastify';
 
