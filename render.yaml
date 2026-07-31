@@ -18,7 +18,7 @@ services:
     plan: standard
     region: oregon
     image:
-      url: docker.io/lissy93/web-check:2.1.10
+      url: docker.io/lissy93/web-check:latest
     healthCheckPath: /
     autoDeployTrigger: off
     envVars:
