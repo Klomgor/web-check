@@ -925,14 +925,14 @@ But there are some optional environmental variables that you can set to give you
 
 | Key                        | Value                                                                                                                                                 |
 | -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `GOOGLE_CLOUD_API_KEY`     | A Google API key ([get here](https://cloud.google.com/api-gateway/docs/authenticate-api-keys)). This can be used to return quality metrics for a site |
+| `GOOGLE_CLOUD_API_KEY`     | A Google API key with the PageSpeed Insights API enabled ([get here](https://developers.google.com/speed/docs/insights/v5/get-started)). This can be used to return quality metrics for a site |
 | `REACT_APP_SHODAN_API_KEY` | A Shodan API key ([get here](https://account.shodan.io/)). This will show associated host names for a given domain                                    |
 | `REACT_APP_WHO_API_KEY`    | A WhoAPI key ([get here](https://whoapi.com/)). This will show more comprehensive WhoIs records than the default job                                  |
 
 <details>
   <summary><small>Full / Upcoming Vals</small></summary>
 
-- `GOOGLE_CLOUD_API_KEY` - A Google API key ([get here](https://cloud.google.com/api-gateway/docs/authenticate-api-keys)). This can be used to return quality metrics for a site
+- `GOOGLE_CLOUD_API_KEY` - A Google API key with the PageSpeed Insights API enabled ([get here](https://developers.google.com/speed/docs/insights/v5/get-started)). This can be used to return quality metrics for a site
 - `REACT_APP_SHODAN_API_KEY` - A Shodan API key ([get here](https://account.shodan.io/)). This will show associated host names for a given domain
 - `REACT_APP_WHO_API_KEY` - A WhoAPI key ([get here](https://whoapi.com/)). This will show more comprehensive WhoIs records than the default job
 - `SECURITY_TRAILS_API_KEY` - A Security Trails API key ([get here](https://securitytrails.com/corp/api)). This will show org info associated with the IP
@@ -953,6 +953,9 @@ But there are some optional environmental variables that you can set to give you
 | `API_ENABLE_RATE_LIMIT`    | Enable rate-limiting for the /api endpoints (e.g. `true`)                  |
 | `PUBLIC_API_TIMEOUT_LIMIT` | The timeout limit for API requests, in milliseconds (e.g. `25000`)         |
 | `API_CORS_ORIGIN`          | Enable CORS, by setting your allowed hostname(s) here (e.g. `example.com`) |
+| `API_DISABLED_CHECKS`      | Comma-separated list of checks to disable (e.g. `trace-route,ports`)       |
+| `API_ENABLED_CHECKS`       | If set, only these checks will run (e.g. `get-ip,ssl,dns,headers`)         |
+| `API_BLOCKED_HOSTS`        | Hosts that must never be scanned (e.g. `lan.example.com,192.168.0.0/16`)   |
 | `CHROME_PATH`              | The path the Chromium executable (e.g. `/usr/bin/chromium`)                |
 | `DISABLE_GUI`              | Disable the GUI, and only serve the API (e.g. `false`)                     |
 | `REACT_APP_API_ENDPOINT`   | The endpoint for the API, either local or remote (e.g. `/api`)             |

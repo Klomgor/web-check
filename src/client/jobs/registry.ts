@@ -3,6 +3,7 @@ import { getLocation, parseShodanResults } from 'client/utils/result-processor';
 
 import ServerLocationCard from 'client/components/Results/ServerLocation';
 import ServerInfoCard from 'client/components/Results/ServerInfo';
+import VulnerabilitiesCard from 'client/components/Results/Vulnerabilities';
 import HostNamesCard from 'client/components/Results/HostNames';
 import WhoIsCard from 'client/components/Results/WhoIs';
 import LighthouseCard from 'client/components/Results/Lighthouse';
@@ -51,7 +52,7 @@ const fetchAndProcess =
     const url = path.replace(/\$\{(ip|url)\}/g, encodeURIComponent(target));
     const res = await fetch(`${ctx.api}/${url}`, { signal: ctx.signal });
     const raw = await parseJson(res);
-    return raw?.error ? raw : process(raw);
+    return raw?.error || raw?.skipped ? raw : process(raw);
   };
 
 // Sleep ms, reject AbortError if signal fires
@@ -171,6 +172,7 @@ export const jobs: JobSpec[] = [
     cards: [
       card('hosts', 'Host Names', ['server'], HostNamesCard, { pick: at('hostnames') }),
       card('server-info', 'Server Info', ['server'], ServerInfoCard, { pick: at('serverInfo') }),
+      card('vulnerabilities', 'Vulnerabilities', ['server', 'security'], VulnerabilitiesCard),
     ],
     fetcher: fetchAndProcess('shodan?url=${ip}', parseShodanResults),
   },
