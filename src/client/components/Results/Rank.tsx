@@ -56,7 +56,7 @@ function Chart(chartData: { date: string; uv: number }[], data: any) {
         />
         <Tooltip
           contentStyle={{ background: colors.background, color: colors.textColor, borderRadius: 4 }}
-          labelFormatter={(value) => ['Date : ', data[value].date]}
+          labelFormatter={(value) => ['Date : ', data[value as number].date]}
         />
         <Area
           type="monotone"
