@@ -16,6 +16,13 @@
 <table align="center">
   <tr>
     <td align="center" width="33%">
+      <a href="https://nubela.co?ref=web-check">
+        <img src="https://pixelflare.cc/alicia/sponsors/ninja-pear.png" width="260" alt="NinjaPear"><br>
+        <b>NinjaPear</b>
+      </a><br>
+      <sub>B2B data enrichment & competitor monitoring</sub>
+    </td>
+    <td align="center" width="33%">
       <a href="https://terminaltrove.com/?utm_campaign=github&utm_medium=referral&utm_content=web-check&utm_source=wcgh">
         <img src="https://pixelflare.cc/alicia/sponsors/terminal-trove.png" width="260" alt="Terminal Trove"><br>
         <b>Terminal Trove</b>
