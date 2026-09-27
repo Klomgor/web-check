@@ -1,9 +1,7 @@
 ---
 import ButtonGroup from '@components/homepage/ButtonGroup.astro';
-import Features from '@components/homepage/Features.astro';
-import { checks, checkIds } from '@/data/checks';
-
-const supportedChecks = checkIds.map((id) => checks[id].title);
+import CheckList from '@components/category/CheckList.astro';
+import { checkIds } from '@/data/checks';
 
 const links = [
   {
@@ -31,18 +29,19 @@ const links = [
   <div class="features-wrap">
     <h4>Ready to get started?</h4>
     <p class="what">
-      With <span>{checkIds.length} supported checks</span>
+      With <a href="/checks">{checkIds.length} supported checks</a>{' '}
       you can view and analyse key website information in an instant
     </p>
   </div>
-  <hr />
-  <Features supportedChecks={supportedChecks} />
   <ButtonGroup links={links} />
+  <hr />
+  <CheckList ids={checkIds} heading="What gets checked" />
 </div>
 
 <style lang="scss">
   .about-section {
     width: 80vw;
+    max-width: 1200px;
     margin: 0 auto;
   }
   .features-wrap {
@@ -63,7 +62,7 @@ const links = [
     text-align: center;
     font-size: 1.2rem;
     line-height: 1.5;
-    span {
+    a {
       color: var(--primary);
       font-style: italic;
     }
