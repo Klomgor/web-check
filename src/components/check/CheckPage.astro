@@ -2,13 +2,8 @@
 import PageLayout from '@layouts/Page.astro';
 import ScanForm from '@components/form/ScanForm.astro';
 import CheckList from '@components/category/CheckList.astro';
-import { checks, checkIds, relatedChecks, type CheckId } from '@/data/checks';
+import { checks, relatedChecks, type CheckId } from '@/data/checks';
 import { categories } from '@/data/categories';
-
-export const prerender = true;
-
-export const getStaticPaths = () =>
-  checkIds.map((check) => ({ params: { check }, props: { check } }));
 
 interface Props {
   check: CheckId;
@@ -18,9 +13,9 @@ const { check } = Astro.props;
 const info = checks[check];
 
 // Uncategorised checks fall back to a full report rather than a scoped one
-const primary = info.categories[0];
-const scanLabel = primary
-  ? `Enter a URL to run the ${categories[primary].label} checks`
+const scanCheck = info.categories.length ? check : undefined;
+const scanLabel = scanCheck
+  ? `Enter a URL to run the ${info.title} check`
   : 'Enter a URL to run the full report';
 
 // Resources are either a bare URL or a titled link
@@ -41,7 +36,7 @@ const related = relatedChecks(check);
   breadcrumbs={[
     { name: 'Web Check', item: '' },
     { name: 'Checks', item: 'checks' },
-    { name: info.title, item: `checks/${check}` },
+    { name: info.title, item: check },
   ]}
 >
   <section class="hero">
@@ -57,7 +52,7 @@ const related = relatedChecks(check);
         ))
       }
     </ul>
-    <ScanForm category={primary} label={scanLabel} />
+    <ScanForm tool={scanCheck} label={scanLabel} />
   </section>
 
   <div class="body">

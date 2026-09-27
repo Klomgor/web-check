@@ -3,11 +3,13 @@ import Nav from 'client/components/Form/Nav';
 import colors from 'client/styles/colors';
 import type { AddressType } from 'client/utils/address-type-checker';
 import { toolName, type CategoryId } from '@/data/categories';
+import { checks, type CheckId } from '@/data/checks';
 
 interface Props {
   address: string;
   addressType: AddressType;
   category?: CategoryId;
+  check?: CheckId;
 }
 
 const makeSiteName = (address: string): string => {
@@ -19,8 +21,13 @@ const makeSiteName = (address: string): string => {
   }
 };
 
-const ResultsHeader = ({ address, addressType, category }: Props): JSX.Element => (
-  <Nav tool={category ? { name: toolName(category), href: `/${category}` } : undefined}>
+const makeTool = (category?: CategoryId, check?: CheckId) => {
+  if (check) return { name: checks[check].title, href: `/${check}` };
+  if (category) return { name: toolName(category), href: `/${category}` };
+};
+
+const ResultsHeader = ({ address, addressType, category, check }: Props): JSX.Element => (
+  <Nav tool={makeTool(category, check)}>
     {address && (
       <Heading color={colors.textColor} size="medium">
         {addressType === 'url' && (

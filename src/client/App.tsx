@@ -26,7 +26,7 @@ export default function App() {
           <Route path=":urlToScan" element={<Results />} />
           <Route path="*" element={<NotFound />} />
         </Route>
-        <Route path="/:category" element={<Layout />}>
+        <Route path="/:tool" element={<Layout />}>
           <Route path=":urlToScan" element={<Results />} />
         </Route>
       </Routes>

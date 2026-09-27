@@ -3,13 +3,8 @@ import PageLayout from '@layouts/Page.astro';
 import CategoryHero from '@components/category/CategoryHero.astro';
 import CheckList from '@components/category/CheckList.astro';
 import CategoryLinks from '@components/category/CategoryLinks.astro';
-import { categories, categoryIds, type CategoryId } from '@/data/categories';
+import { categories, type CategoryId } from '@/data/categories';
 import { checksInCategory } from '@/data/checks';
-
-export const prerender = true;
-
-export const getStaticPaths = () =>
-  categoryIds.map((category) => ({ params: { category }, props: { category } }));
 
 interface Props {
   category: CategoryId;

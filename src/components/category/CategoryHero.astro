@@ -15,7 +15,7 @@ const [lead, accent, tail] = info.heading;
 <section class="hero">
   <h1>{lead} <em>{accent}</em> {tail}</h1>
   <p class="tagline">{info.tagline}</p>
-  <ScanForm category={category} label={`Enter a URL to run all ${count} checks`} />
+  <ScanForm tool={category} label={`Enter a URL to run all ${count} checks`} />
   <p class="promise">
     Checks run in parallel, and slow ones time out rather than hold up the rest.
   </p>

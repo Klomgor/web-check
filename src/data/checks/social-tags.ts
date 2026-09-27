@@ -22,8 +22,8 @@ export default {
     { title: 'Web.dev metadata tags', link: 'https://web.dev/learn/html/metadata/' },
     { title: 'Open Graph Protocol', link: 'https://ogp.me/' },
     {
-      title: 'Twitter Cards',
-      link: 'https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/abouts-cards',
+      title: 'Twitter Cards (archived)',
+      link: 'https://web.archive.org/web/20250119104329/https://developer.x.com/en/docs/x-for-websites/cards/overview/abouts-cards',
     },
     {
       title: 'Facebook Open Graph',

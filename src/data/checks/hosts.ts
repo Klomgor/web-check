@@ -14,12 +14,12 @@ export default {
     'internal tools that were never meant to face the internet.',
   resources: [
     {
-      title: 'DNS Enumeration - Wiki',
-      link: 'https://en.wikipedia.org/wiki/DNS_enumeration',
+      title: 'Reverse DNS Lookup - Wiki',
+      link: 'https://en.wikipedia.org/wiki/Reverse_DNS_lookup',
     },
     {
       title: 'OWASP - Enumerate Applications on Webserver',
-      link: 'https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/01-Information_Gathering/04-Enumerate_Applications_on_Webserver',
+      link: 'https://wstg.owasp.org/v4.2/4-Web_Application_Security_Testing/01-Information_Gathering/04-Enumerate_Applications_on_Webserver/',
     },
     { title: 'DNS Enumeration - DNS Dumpster', link: 'https://dnsdumpster.com/' },
     { title: 'Subdomain Finder', link: 'https://subdomainfinder.c99.nl/' },

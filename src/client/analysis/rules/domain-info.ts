@@ -2,7 +2,7 @@ import type { Analyzer } from '../types';
 import { daysUntil } from '../helpers';
 
 // Warn when a domain is close to expiring so renewal can happen on time
-const whois: Analyzer = (d) => {
+const domainInfo: Analyzer = (d) => {
   const days = daysUntil(d.expires);
   if (days === null) return [];
   if (days < 0) {
@@ -35,4 +35,4 @@ const whois: Analyzer = (d) => {
   return [{ severity: 'pass', title: 'Domain registration is valid' }];
 };
 
-export default whois;
+export default domainInfo;

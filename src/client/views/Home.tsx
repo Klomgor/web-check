@@ -222,7 +222,7 @@ const Home = (): JSX.Element => {
           <ul>
             {Object.entries(checks).map(([id, { title }]) => (
               <li key={id}>
-                <a href={`/checks/${id}`} title={title}>
+                <a href={`/${id}`} title={title}>
                   {title}
                 </a>
               </li>

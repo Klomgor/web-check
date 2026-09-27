@@ -34,8 +34,23 @@ const base = unwrapEnvVar('BASE_URL', '/');
 // Should run the app in boss-mode (requires extra configuration)
 const isBossServer = unwrapEnvVar('BOSS_SERVER', false);
 
+// Give check, build and sync their own Vite cache, so they don't overwrite dev's deps
+const separateBuildCache = {
+  name: 'separate-build-cache',
+  hooks: {
+    'astro:config:setup': ({ command, updateConfig }) => {
+      if (command !== 'dev') updateConfig({ vite: { cacheDir: 'node_modules/.vite-build' } });
+    },
+  },
+};
+
 // Initialize Astro integrations
-const integrations = [svelte(), react(), sitemap()];
+const integrations = [
+  svelte(),
+  react(),
+  sitemap({ filter: (page) => !page.includes('/account') }),
+  separateBuildCache,
+];
 
 // Set the appropriate adapter, based on the deploy target
 function getAdapter(target) {

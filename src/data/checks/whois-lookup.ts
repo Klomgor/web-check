@@ -15,7 +15,7 @@ export default {
     'expiry.',
   resources: [
     'https://en.wikipedia.org/wiki/WHOIS',
-    'https://www.icann.org/resources/pages/whois-2018-01-17-en',
+    'https://lookup.icann.org/',
     'https://whois.domaintools.com/',
   ],
   screenshot: 'https://pixelflare.cc/alicia/web-check/wc-domain',

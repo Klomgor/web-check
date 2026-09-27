@@ -17,8 +17,8 @@ import traceRoute from './trace-route';
 import carbon from './carbon';
 import serverInfo from './server-info';
 import vulnerabilities from './vulnerabilities';
-import domain from './domain';
-import whois from './whois';
+import whoisLookup from './whois-lookup';
+import domainInfo from './domain-info';
 import dnssec from './dnssec';
 import hsts from './hsts';
 import dnsServer from './dns-server';
@@ -71,8 +71,8 @@ const all = {
   carbon,
   'server-info': serverInfo,
   vulnerabilities,
-  domain,
-  whois,
+  'whois-lookup': whoisLookup,
+  'domain-info': domainInfo,
   dnssec,
   hsts,
   'dns-server': dnsServer,

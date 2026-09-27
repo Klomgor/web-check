@@ -24,8 +24,8 @@ export default {
     },
     { title: 'RFC-6962 (CT)', link: 'https://datatracker.ietf.org/doc/html/rfc6962' },
     {
-      title: 'OWASP - Subdomain Enumeration',
-      link: 'https://owasp.org/www-community/attacks/Subdomain_Takeover',
+      title: 'OWASP - Test for Subdomain Takeover',
+      link: 'https://wstg.owasp.org/v4.2/4-Web_Application_Security_Testing/02-Configuration_and_Deployment_Management_Testing/10-Test_for_Subdomain_Takeover/',
     },
   ],
 } satisfies Check;

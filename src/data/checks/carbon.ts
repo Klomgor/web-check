@@ -25,7 +25,7 @@ export default {
     { title: 'Reset.org', link: 'https://en.reset.org/' },
     {
       title: 'Your website is killing the planet - via Wired',
-      link: 'https://www.wired.co.uk/article/internet-carbon-footprint',
+      link: 'https://www.wired.com/story/internet-carbon-footprint/',
     },
   ],
   screenshot: 'https://pixelflare.cc/alicia/web-check/wc-carbon',

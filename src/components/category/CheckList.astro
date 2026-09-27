@@ -17,7 +17,7 @@ const { ids, heading = 'What gets checked', showCategories = false } = Astro.pro
     {
       ids.map((id) => (
         <li id={id}>
-          <a href={`/checks/${id}`}>
+          <a href={`/${id}`}>
             <h3>{checks[id].title}</h3>
             <p>{checks[id].summary}</p>
           </a>

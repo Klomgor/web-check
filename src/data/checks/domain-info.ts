@@ -14,7 +14,7 @@ export default {
     'contact details are what link separate properties to the same owner.',
   resources: [
     'https://en.wikipedia.org/wiki/WHOIS',
-    'https://www.icann.org/resources/pages/whois-2018-01-17-en',
+    'https://lookup.icann.org/',
     'https://whois.domaintools.com/',
   ],
   screenshot: 'https://pixelflare.cc/alicia/web-check/wc-domain',

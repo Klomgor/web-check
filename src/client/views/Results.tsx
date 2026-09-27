@@ -26,7 +26,8 @@ import { hasData } from 'client/utils/result-processor';
 import keys from 'client/utils/get-keys';
 import useJobs from 'client/hooks/useJobs';
 import { isCategory } from '@/data/categories';
-import { jobsForCategory, cardsForCategory } from 'client/jobs/registry';
+import { isCheck } from '@/data/checks';
+import { jobsFor, cardsFor } from 'client/jobs/registry';
 import { runAnalysis } from 'client/analysis/registry';
 
 const ResultsOuter = styled.div`
@@ -66,16 +67,17 @@ const makeActionButtons = (title: string, refresh: () => void, showInfo: () => v
 );
 
 const Results = (props: { address?: string }): JSX.Element => {
-  const { urlToScan, category: categoryParam = '' } = useParams();
+  const { urlToScan, tool = '' } = useParams();
   const address = props.address || urlToScan || '';
   const addressType: AddressType = useMemo(() => determineAddressType(address), [address]);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState<ReactNode>(<></>);
 
-  // Optional category in the path narrows the scan, unknown values fall back to everything
-  const category = isCategory(categoryParam) ? categoryParam : undefined;
-  const activeJobs = useMemo(() => jobsForCategory(category), [category]);
-  const activeCards = useMemo(() => cardsForCategory(category), [category]);
+  // Optional category or check in the path narrows the scan, unknown values fall back to everything
+  const category = isCategory(tool) ? tool : undefined;
+  const check = isCheck(tool) ? tool : undefined;
+  const activeJobs = useMemo(() => jobsFor({ category, check }), [category, check]);
+  const activeCards = useMemo(() => cardsFor({ category, check }), [category, check]);
 
   const { state: jobsState, retry, ipLookupError } = useJobs(address, addressType, activeJobs);
 
@@ -174,7 +176,12 @@ const Results = (props: { address?: string }): JSX.Element => {
 
   return (
     <ResultsOuter>
-      <ResultsHeader address={address} addressType={addressType} category={category} />
+      <ResultsHeader
+        address={address}
+        addressType={addressType}
+        category={category}
+        check={check}
+      />
       {errorKind && (
         <NoResults kind={errorKind} address={address} error={ipLookupError || skipReason} />
       )}

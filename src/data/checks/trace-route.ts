@@ -12,7 +12,7 @@ export default {
     'you spot a CDN sitting in front of an origin server, a congested transit ' +
     'provider, or traffic taking a surprising geographic detour.',
   resources: [
-    'https://www.cloudflare.com/learning/network-layer/what-is-traceroute/',
+    'https://www.cloudflare.com/learning/network-layer/what-is-mtr/',
     'https://tools.ietf.org/html/rfc1393',
     'https://en.wikipedia.org/wiki/Traceroute',
     'https://www.ripe.net/publications/docs/ripe-611',

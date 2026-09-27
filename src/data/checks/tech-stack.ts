@@ -15,8 +15,8 @@ export default {
     'version numbers in particular are often wrong.',
   resources: [
     {
-      title: 'Wappalyzer fingerprints',
-      link: 'https://github.com/wappalyzer/wappalyzer/tree/master/src/technologies',
+      title: 'Wappalyzer fingerprints (community fork)',
+      link: 'https://github.com/enthec/webappanalyzer/tree/main/src/technologies',
     },
     {
       title: 'BuiltWith - Check what tech a site is using',

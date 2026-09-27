@@ -19,7 +19,7 @@ export default {
     'https://www.cloudflare.com/dns/dnssec/how-dnssec-works/',
     'https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions',
     'https://www.icann.org/resources/pages/dnssec-what-is-it-why-important-2019-03-05-en',
-    'https://support.google.com/domains/answer/6147083',
+    'https://dnsviz.net/',
     'https://www.internetsociety.org/resources/deploy360/2013/dnssec-test-sites/',
   ],
   screenshot: 'https://pixelflare.cc/alicia/web-check/wc-dnssec',

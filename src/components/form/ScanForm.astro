@@ -3,34 +3,34 @@ import AnimatedInput from '@components/form/AnimatedInput.astro';
 import AnimatedButton from '@components/form/AnimatedButton.astro';
 
 interface Props {
-  category?: string;
+  tool?: string;
   label: string;
   buttonLabel?: string;
 }
 
-const { category, label, buttonLabel = 'Analyze' } = Astro.props;
+const { tool, label, buttonLabel = 'Analyze' } = Astro.props;
 ---
 
-<form class="scan-form" action="/check" autocomplete="off" data-category={category}>
+<form class="scan-form" action="/check" autocomplete="off" data-tool={tool}>
   <label for="url-input">{label}</label>
   <div class="controls">
     <AnimatedInput />
     <AnimatedButton label={buttonLabel} />
   </div>
-  {category && <input type="hidden" name="category" value={category} />}
+  {tool && <input type="hidden" name="tool" value={tool} />}
 </form>
 
 <script>
   import { normalizeAddress } from '../../client/utils/address-type-checker';
 
-  // Send the visitor straight to the results page, keeping any category filter
+  // Send the visitor straight to the results page, keeping any category or check filter
   const scan = (form: HTMLFormElement, event: Event) => {
     event.preventDefault();
     const input = form.querySelector<HTMLInputElement>('input[name="url"]');
     const target = normalizeAddress(input?.value);
     if (!target) return;
-    const { category } = form.dataset;
-    window.location.href = `/${category || 'check'}/${target}`;
+    const { tool } = form.dataset;
+    window.location.href = `/${tool || 'check'}/${target}`;
   };
 
   document.addEventListener('astro:page-load', () => {

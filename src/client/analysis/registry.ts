@@ -21,7 +21,7 @@ import tlsSecurityAudit from './rules/tls-security-audit';
 import quality from './rules/quality';
 import socialTags from './rules/social-tags';
 import socialPresence from './rules/social-presence';
-import whois from './rules/whois';
+import domainInfo from './rules/domain-info';
 import status from './rules/status';
 import redirects from './rules/redirects';
 import serverInfo from './rules/server-info';
@@ -48,7 +48,7 @@ export const analyzers: Partial<Record<CheckId, Analyzer>> = {
   quality,
   'social-tags': socialTags,
   'social-presence': socialPresence,
-  whois,
+  'domain-info': domainInfo,
   status,
   redirects,
   'server-info': serverInfo,

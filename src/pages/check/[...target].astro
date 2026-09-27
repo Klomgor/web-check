@@ -2,16 +2,17 @@
 import ResultsLayout from '@layouts/Results.astro';
 import { normalizeAddress } from '../../client/utils/address-type-checker';
 import { isCategory } from '@/data/categories';
+import { isCheck } from '@/data/checks';
 
 export const prerender = false;
 
 const { searchParams } = new URL(Astro.request.url);
 
-// Forward ?url= links, and their optional ?category=, to the matching results page
+// Forward ?url= links, and their optional ?tool=, to the matching results page
 const searchUrl = normalizeAddress(searchParams.get('url') || '');
-const searchCategory = searchParams.get('category') || '';
-const redirectPath =
-  searchUrl && `/${isCategory(searchCategory) ? searchCategory : 'check'}/${searchUrl}`;
+const searchTool = searchParams.get('tool') || '';
+const toolPath = isCategory(searchTool) || isCheck(searchTool) ? searchTool : 'check';
+const redirectPath = searchUrl && `/${toolPath}/${searchUrl}`;
 
 if (redirectPath) return Astro.redirect(redirectPath);
 

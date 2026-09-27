@@ -154,7 +154,7 @@ export const jobs: JobSpec[] = [
   {
     id: 'whois',
     expectedAddressTypes: [...URL_ONLY],
-    cards: [card('domain', DomainLookup), card('whois', WhoIsCard)],
+    cards: [card('whois-lookup', DomainLookup), card('domain-info', WhoIsCard)],
     fetcher: fetchAndProcess('whois?url=${url}'),
   },
   {
@@ -362,19 +362,24 @@ export const jobs: JobSpec[] = [
   },
 ];
 
-const inCategory = (card: JobSpec['cards'][number], category?: CategoryId) =>
-  !category || card.categories.includes(category);
+interface Filter {
+  category?: CategoryId;
+  check?: CheckId;
+}
 
-// Jobs to run for a category filter, cardless jobs like get-ip always run
-export const jobsForCategory = (category?: CategoryId): JobSpec[] =>
-  jobs.filter((j) => !j.cards.length || j.cards.some((c) => inCategory(c, category)));
+const matches = (card: JobSpec['cards'][number], { category, check }: Filter = {}) =>
+  (!category || card.categories.includes(category)) && (!check || card.id === check);
 
-// Cards to show for a category filter, each paired with its owning job id
-export const cardsForCategory = (
-  category?: CategoryId,
+// Jobs to run for a category or single check, cardless jobs like get-ip always run
+export const jobsFor = (filter?: Filter): JobSpec[] =>
+  jobs.filter((j) => !j.cards.length || j.cards.some((c) => matches(c, filter)));
+
+// Cards to show for a category or single check, each paired with its owning job id
+export const cardsFor = (
+  filter?: Filter,
 ): Array<{ jobId: string; card: JobSpec['cards'][number] }> =>
-  jobsForCategory(category).flatMap((j) =>
-    j.cards.filter((c) => inCategory(c, category)).map((card) => ({ jobId: j.id, card })),
+  jobsFor(filter).flatMap((j) =>
+    j.cards.filter((c) => matches(c, filter)).map((card) => ({ jobId: j.id, card })),
   );
 
-export const allCards = cardsForCategory();
+export const allCards = cardsFor();

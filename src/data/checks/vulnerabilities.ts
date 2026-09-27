@@ -14,7 +14,7 @@ export default {
     'proof that the host is clean.',
   resources: [
     'https://nvd.nist.gov/vuln',
-    'https://cve.mitre.org/',
+    'https://www.cve.org/',
     'https://www.shodan.io/',
     'https://en.wikipedia.org/wiki/Common_Vulnerabilities_and_Exposures',
   ],
