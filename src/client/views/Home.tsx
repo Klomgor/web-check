@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { type ChangeEvent, type SyntheticEvent, useState, useEffect } from 'react';
-import { Link, useNavigate, useLocation, type NavigateOptions } from 'react-router';
+import { useNavigate, useLocation, type NavigateOptions } from 'react-router';
 
 import Heading from 'client/components/Form/Heading';
 import Input from 'client/components/Form/Input';
@@ -222,13 +222,13 @@ const Home = (): JSX.Element => {
           <ul>
             {Object.entries(checks).map(([id, { title }]) => (
               <li key={id}>
-                <Link to={`/check/about#${id}`} title={title}>
+                <a href={`/checks/${id}`} title={title}>
                   {title}
-                </Link>
+                </a>
               </li>
             ))}
             <li>
-              <Link to="/check/about">+ more!</Link>
+              <a href="/checks">+ more!</a>
             </li>
           </ul>
         </div>
@@ -249,12 +249,12 @@ const Home = (): JSX.Element => {
           >
             <Button>Deploy your own</Button>
           </a>
-          <Link
-            to="/check/about#api-documentation"
+          <a
+            href="/web-check-api"
             title="View the API documentation, to use Web-Check programmatically"
           >
             <Button>API Docs</Button>
-          </Link>
+          </a>
         </div>
       </SiteFeaturesWrapper>
       <Footer isFixed={true} />

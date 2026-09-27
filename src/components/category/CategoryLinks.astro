@@ -4,15 +4,16 @@ import { categories, categoryIds, type CategoryId } from '@/data/categories';
 import { checksInCategory } from '@/data/checks';
 
 interface Props {
-  current: CategoryId;
+  current?: CategoryId;
+  heading?: string;
 }
 
-const { current } = Astro.props;
+const { current, heading = 'Other checks' } = Astro.props;
 const others = categoryIds.filter((category) => category !== current);
 ---
 
 <nav aria-labelledby="other-checks">
-  <h2 id="other-checks">Other checks</h2>
+  <h2 id="other-checks">{heading}</h2>
   <ul>
     {
       others.map((category) => (
@@ -29,8 +30,6 @@ const others = categoryIds.filter((category) => category !== current);
 </nav>
 
 <style lang="scss">
-  @use '@styles/global.scss' as *;
-
   ul {
     display: flex;
     flex-wrap: wrap;

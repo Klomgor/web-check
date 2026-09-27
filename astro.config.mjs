@@ -64,7 +64,7 @@ console.log(
 );
 
 const redirects = {
-  '/about': '/check/about',
+  '/check/about': '/checks',
 };
 
 // Skip the marketing homepage for self-hosted users

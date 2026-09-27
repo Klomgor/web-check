@@ -106,3 +106,11 @@ export const isCheck = (value: string): value is CheckId => (checkIds as string[
 
 export const checksInCategory = (category: CategoryId): CheckId[] =>
   checkIds.filter((id) => checks[id].categories.includes(category));
+
+export const relatedChecks = (id: CheckId, limit = 6): CheckId[] =>
+  checkIds
+    .filter(
+      (other) =>
+        other !== id && checks[other].categories.some((c) => checks[id].categories.includes(c)),
+    )
+    .slice(0, limit);

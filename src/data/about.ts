@@ -1,8 +1,4 @@
-export const featureIntro = [
-  'There are a handful of areas worth looking at when investigating a website or host. ' +
-    'Each is documented below, with links to the tools and standards behind it.',
-  'Web-Check gathers the data. Interpreting it is still your job.',
-];
+export const checksIntro = 'Web Check gathers the data. Interpreting it is still your job.';
 
 export const about = [
   'Web-Check gathers information about a website or host and puts it in one place. Give it a ' +
@@ -54,6 +50,15 @@ export const supportUs = [
   "But don't feel obliged to do anything, as this app (and all my other projects) will always " +
     'remain 100% free and open source, and I will do my best to ensure the managed instances ' +
     'remain up and available for as long as possible :)',
+];
+
+export const privacy = [
+  'Analytics are used on the managed instance, via a self-hosted Plausible instance. This ' +
+    "records only the URL you visited, and no personal data. There's also basic error logging, " +
+    'via a self-hosted GlitchTip instance, which is only used to help fix bugs.',
+  'Neither your IP address, browser, OS or hardware info, nor any other data will ever be ' +
+    'collected or logged. You can verify that yourself, either by inspecting the source code or ' +
+    'by using your browser devtools.',
 ];
 
 export const fairUse = [
