@@ -20,6 +20,7 @@
     gauge: solidIcons.faGaugeHigh,
     fingerprint: solidIcons.faFingerprint,
     heart: solidIcons.faHeart,
+    chevron: solidIcons.faChevronDown,
   };
 
   export let name: string;
