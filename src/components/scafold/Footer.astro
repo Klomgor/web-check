@@ -2,6 +2,12 @@
 import { categoryIds, toolName } from '@/data/categories';
 import { checkIds } from '@/data/checks';
 
+interface Props {
+  miniView?: boolean;
+}
+
+const { miniView = false } = Astro.props;
+
 const repo = 'github.com/lissy93/web-check';
 const github = `https://${repo}`;
 
@@ -41,35 +47,40 @@ const linkGroups = [
 ---
 
 <footer>
-  <div class="links">
-    <div class="intro">
-      <a href="/">
-        <img src="/favicon.svg" alt="" width="28" height="28" />
-        {projectName}
-      </a>
-      <p>
-        The all-in-one OSINT and security tool, for revealing the inner workings of any website.
-      </p>
-    </div>
-    <nav aria-label="Footer">
-      {
-        linkGroups.map((group) => (
-          <div>
-            <h2>{group.title}</h2>
-            <ul>
-              {group.links.map((link) => (
-                <li>
-                  <a href={link.href} target={link.href.startsWith('http') ? '_blank' : undefined}>
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))
-      }
-    </nav>
-  </div>
+  {
+    !miniView && (
+      <div class="links">
+        <div class="intro">
+          <a href="/">
+            <img src="/favicon.svg" alt="" width="28" height="28" />
+            {projectName}
+          </a>
+          <p>
+            The all-in-one OSINT and security tool, for revealing the inner workings of any website.
+          </p>
+        </div>
+        <nav aria-label="Footer">
+          {linkGroups.map((group) => (
+            <div>
+              <h2>{group.title}</h2>
+              <ul>
+                {group.links.map((link) => (
+                  <li>
+                    <a
+                      href={link.href}
+                      target={link.href.startsWith('http') ? '_blank' : undefined}
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </nav>
+      </div>
+    )
+  }
   <div class="bar">
     <p>
       View source at <a href={github} target="_blank">{repo}</a>

@@ -29,12 +29,9 @@ const StyledButton = styled.button<ButtonProps>`
   display: flex;
   justify-content: center;
   gap: 1rem;
-  box-shadow: 3px 3px 0px ${colors.fgShadowColor};
+  transition: background 0.3s ease;
   &:hover {
-    box-shadow: 5px 5px 0px ${colors.fgShadowColor};
-  }
-  &:active {
-    box-shadow: -3px -3px 0px ${colors.fgShadowColor};
+    background: ${colors.textColor};
   }
   ${(props) => applySize(props.size)};
   ${(props) => (props.bgColor ? `background: ${props.bgColor};` : `background: ${colors.primary};`)}

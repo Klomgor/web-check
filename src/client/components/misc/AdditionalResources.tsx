@@ -23,20 +23,16 @@ const ResourceListOuter = styled.ul`
 
     transition: all 0.2s ease-in-out;
     cursor: pointer;
-    border: none;
+    border: 1px solid transparent;
     border-radius: 0.25rem;
     font-family: var(--font-mono);
     box-sizing: border-box;
     width: -moz-available;
-    box-shadow: 3px 3px 0px ${colors.backgroundDarker};
     &:hover {
-      box-shadow: 5px 5px 0px ${colors.backgroundDarker};
+      border-color: ${colors.primary};
       a {
         opacity: 1;
       }
-    }
-    &:active {
-      box-shadow: -3px -3px 0px ${colors.fgShadowColor};
     }
   }
   img {
@@ -87,7 +83,7 @@ const Note = styled.small`
 
 const CardStyles = `
   margin: 0 auto;
-  width: 95vw;
+  width: var(--page-width);
   position: relative;
   transition: all 0.2s ease-in-out;
   max-height: 100%;

@@ -20,7 +20,7 @@ const { target } = Astro.params;
 const pageTitle = target ? `${target} | Web Check` : 'Web Check';
 ---
 
-<ResultsLayout title={pageTitle} />
+<ResultsLayout title={pageTitle} target={target} />
 
 <script>
   import { normalizeAddress } from '../../client/utils/address-type-checker';

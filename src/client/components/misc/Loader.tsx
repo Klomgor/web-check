@@ -6,7 +6,7 @@ import colors from 'client/styles/colors';
 
 const LoaderContainer = styled(StyledCard)`
   margin: 0 auto;
-  width: 95vw;
+  width: var(--page-width);
   position: relative;
   display: flex;
   justify-content: center;

@@ -6,7 +6,7 @@ import Button from 'client/components/Form/Button';
 
 const CardStyles = `
 margin: 0 auto;
-width: 95vw;
+width: var(--page-width);
 position: relative;
 transition: all 0.2s ease-in-out;
 display: flex;

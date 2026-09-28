@@ -16,4 +16,9 @@ const name = isCategory(tool) ? toolName(tool) : checks[tool].title;
 const description = isCategory(tool) ? categories[tool].description : checks[tool].summary;
 ---
 
-<ResultsLayout title={`${target} | ${name} | Web Check`} description={description} />
+<ResultsLayout
+  title={`${target} | ${name} | Web Check`}
+  description={description}
+  target={target}
+  tool={{ name, href: `/${tool}` }}
+/>

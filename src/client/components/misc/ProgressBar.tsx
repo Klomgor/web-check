@@ -47,7 +47,7 @@ const stateToPercent = (jobs: LoadingJob[]): Record<LoadingState, number> => {
 
 const LoadCard = styled(Card)`
   margin: 0 auto;
-  width: 95vw;
+  width: var(--page-width);
   max-height: 100%;
   position: relative;
 `;
@@ -190,7 +190,7 @@ const SummaryContainer = styled.div`
 
 const ReShowRow = styled.div`
   margin: 0 auto;
-  width: 95vw;
+  width: var(--page-width);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -215,24 +215,24 @@ const ReShowRow = styled.div`
   }
 `;
 
-// Re-open trigger styled to match the repo's filter buttons (shadow grows on hover)
+// Re-open trigger styled to match the site's outlined buttons
 const ShowLoadStateButton = styled.button`
   background: ${colors.backgroundLighter};
   color: ${colors.textColor};
-  border: none;
+  border: 1px solid ${colors.primaryTransparent};
   padding: 0.3rem 0.7rem;
   border-radius: 4px;
   font-family: var(--font-mono);
   font-size: 0.9rem;
+  white-space: nowrap;
   cursor: pointer;
-  box-shadow: 2px 2px 0px ${colors.bgShadowColor};
   transition:
-    box-shadow 0.2s ease-in-out,
+    border-color 0.2s ease-in-out,
     color 0.2s ease-in-out;
   &:hover,
   &:focus-visible {
     color: ${colors.primary};
-    box-shadow: 4px 4px 0px ${colors.bgShadowColor};
+    border-color: ${colors.primary};
     outline: none;
   }
 `;

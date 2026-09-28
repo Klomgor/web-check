@@ -6,7 +6,6 @@ import Heading from 'client/components/Form/Heading';
 import Input from 'client/components/Form/Input';
 import Button from 'client/components/Form/Button';
 import { StyledCard } from 'client/components/Form/Card';
-import Footer from 'client/components/misc/Footer';
 import FancyBackground from 'client/components/misc/FancyBackground';
 
 import { checks } from '@/data/checks';
@@ -21,9 +20,6 @@ const HomeContainer = styled.section`
   height: 100%;
   font-family: var(--font-mono);
   padding: 1.5rem 1rem 4rem 1rem;
-  footer {
-    z-index: 1;
-  }
 `;
 
 const UserInputMain = styled.form`
@@ -257,7 +253,6 @@ const Home = (): JSX.Element => {
           </a>
         </div>
       </SiteFeaturesWrapper>
-      <Footer isFixed={true} />
     </HomeContainer>
   );
 };

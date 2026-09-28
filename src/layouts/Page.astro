@@ -13,13 +13,14 @@ interface Props {
 ---
 
 <BaseLayout {...Astro.props}>
+  <slot name="head" slot="head" />
   <div class="web-check-page">
     <DotGrid />
-    <NavBar />
+    <slot name="nav"><NavBar /></slot>
     <main>
       <slot />
     </main>
-    <Footer />
+    <slot name="footer"><Footer /></slot>
   </div>
 </BaseLayout>
 
@@ -43,11 +44,7 @@ interface Props {
     flex-grow: 1;
     width: var(--page-width);
     margin: 0 auto;
-    padding: 4rem 0;
-
-    @include mobile-down {
-      padding: 1.5rem 0;
-    }
+    padding: var(--main-padding, 1rem 0);
 
     > :global(section),
     > :global(nav) {

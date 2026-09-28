@@ -5,8 +5,6 @@ import { ToastContainer } from 'react-toastify';
 
 import colors from 'client/styles/colors';
 import Modal from 'client/components/Form/Modal';
-import Footer from 'client/components/misc/Footer';
-import ResultsHeader from 'client/components/misc/ResultsHeader';
 import Loader from 'client/components/misc/Loader';
 import ErrorBoundary from 'client/components/misc/ErrorBoundary';
 import DocContent from 'client/components/misc/DocContent';
@@ -34,11 +32,10 @@ const ResultsOuter = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  padding-top: 1rem;
 `;
 
 const ResultsContent = styled.section`
-  width: 95vw;
+  width: var(--page-width);
   margin: 0 auto;
   @keyframes cardFlash {
     0%,
@@ -53,7 +50,7 @@ const ResultsContent = styled.section`
   }
   .flash > section {
     animation: cardFlash 1.2s ease-out;
-    border-radius: 8px;
+    border-radius: 4px;
   }
 `;
 
@@ -176,12 +173,6 @@ const Results = (props: { address?: string }): JSX.Element => {
 
   return (
     <ResultsOuter>
-      <ResultsHeader
-        address={address}
-        addressType={addressType}
-        category={category}
-        check={check}
-      />
       {errorKind && (
         <NoResults kind={errorKind} address={address} error={ipLookupError || skipReason} />
       )}
@@ -233,7 +224,6 @@ const Results = (props: { address?: string }): JSX.Element => {
         theme="dark"
         position="bottom-right"
       />
-      <Footer />
     </ResultsOuter>
   );
 };
