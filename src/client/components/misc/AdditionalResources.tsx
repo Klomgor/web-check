@@ -292,7 +292,7 @@ const resources: Resource[] = [
   },
 ];
 
-const makeLink = (resource: any, scanUrl: string | undefined): string => {
+const makeLink = (resource: Resource, scanUrl: string | undefined): string => {
   return scanUrl && resource.searchLink
     ? resource.searchLink
         .replaceAll('{URL}', scanUrl.replace(/(https?:\/\/)?/i, ''))
