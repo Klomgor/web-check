@@ -19,6 +19,7 @@
     envelope: solidIcons.faEnvelope,
     gauge: solidIcons.faGaugeHigh,
     fingerprint: solidIcons.faFingerprint,
+    heart: solidIcons.faHeart,
   };
 
   export let name: string;
