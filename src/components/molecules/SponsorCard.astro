@@ -1,4 +1,5 @@
 ---
+import Button from '@components/molecules/Button.astro';
 import Icon from '@components/molecules/Icon.svelte';
 ---
 
@@ -10,10 +11,10 @@ import Icon from '@components/molecules/Icon.svelte';
       GitHub helps keep it running and ad-free.
     </p>
   </div>
-  <a href="https://github.com/sponsors/Lissy93" target="_blank" rel="noreferrer">
+  <Button href="https://github.com/sponsors/Lissy93" newTab>
     <Icon name="heart" size={0.9} />
     Sponsor on GitHub
-  </a>
+  </Button>
 </aside>
 
 <style lang="scss">
@@ -36,23 +37,6 @@ import Icon from '@components/molecules/Icon.svelte';
       margin: 0;
       line-height: 1.5;
       color: var(--text-color-secondary);
-    }
-    a {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
-      background: var(--primary);
-      color: var(--background);
-      font-weight: 600;
-      white-space: nowrap;
-      transition: background 0.3s ease;
-      &:hover,
-      &:focus-visible {
-        background: var(--text-color);
-        text-decoration: none;
-      }
     }
   }
 </style>
