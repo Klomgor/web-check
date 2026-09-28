@@ -39,7 +39,7 @@ export const logJobOutcome = (
       ? `\n%cRun %cwindow.webCheck['${job}']%c to inspect the raw results`
       : `, with the following error:%c\n${detail || 'Unknown error'}`;
   const styles = [
-    `background:${accent};color:${colors.background};padding:4px 8px;font-size:16px;border-radius:2px;`,
+    `background:${accent};color:${colors.backgroundDarker};padding:4px 8px;font-size:16px;border-radius:2px;`,
     `font-weight:bold;color:${accent};`,
     `color:${accent};`,
   ];

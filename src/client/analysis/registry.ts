@@ -1,5 +1,6 @@
 import type { JobsState } from 'client/jobs/types';
 import { allCards } from 'client/jobs/registry';
+import type { CheckId } from '@/data/checks';
 import type { Analyzer, Finding } from './types';
 
 import httpSecurity from './rules/http-security';
@@ -20,7 +21,7 @@ import tlsSecurityAudit from './rules/tls-security-audit';
 import quality from './rules/quality';
 import socialTags from './rules/social-tags';
 import socialPresence from './rules/social-presence';
-import whois from './rules/whois';
+import domainInfo from './rules/domain-info';
 import status from './rules/status';
 import redirects from './rules/redirects';
 import serverInfo from './rules/server-info';
@@ -28,7 +29,7 @@ import robotsTxt from './rules/robots-txt';
 import tlsClientCompat from './rules/tls-client-compat';
 
 /* Map of card id to its pure analyzer */
-export const analyzers: Record<string, Analyzer> = {
+export const analyzers: Partial<Record<CheckId, Analyzer>> = {
   'http-security': httpSecurity,
   hsts,
   ssl,
@@ -47,7 +48,7 @@ export const analyzers: Record<string, Analyzer> = {
   quality,
   'social-tags': socialTags,
   'social-presence': socialPresence,
-  whois,
+  'domain-info': domainInfo,
   status,
   redirects,
   'server-info': serverInfo,

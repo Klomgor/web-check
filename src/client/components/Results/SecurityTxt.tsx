@@ -18,7 +18,7 @@ pre {
   background: ${colors.background};
   padding: 0.5rem 0.25rem;
   border-radius: 4px;
-  overflow: auto;
+  white-space: pre-wrap;
 }
 `;
 

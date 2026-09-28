@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import colors from 'client/styles/colors';
 import { Card } from 'client/components/Form/Card';
+import type { CategoryId } from '@/data/categories';
 
 const ResourceListOuter = styled.ul`
   list-style: none;
@@ -23,20 +24,16 @@ const ResourceListOuter = styled.ul`
 
     transition: all 0.2s ease-in-out;
     cursor: pointer;
-    border: none;
+    border: 1px solid transparent;
     border-radius: 0.25rem;
     font-family: var(--font-mono);
     box-sizing: border-box;
     width: -moz-available;
-    box-shadow: 3px 3px 0px ${colors.backgroundDarker};
     &:hover {
-      box-shadow: 5px 5px 0px ${colors.backgroundDarker};
+      border-color: ${colors.primary};
       a {
         opacity: 1;
       }
-    }
-    &:active {
-      box-shadow: -3px -3px 0px ${colors.fgShadowColor};
     }
   }
   img {
@@ -87,18 +84,28 @@ const Note = styled.small`
 
 const CardStyles = `
   margin: 0 auto;
-  width: 95vw;
+  width: var(--page-width);
   position: relative;
   transition: all 0.2s ease-in-out;
   max-height: 100%;
 `;
 
-const resources = [
+interface Resource {
+  title: string;
+  link: string;
+  icon: string;
+  description: string;
+  searchLink?: string;
+  categories: CategoryId[];
+}
+
+const resources: Resource[] = [
   {
     title: 'Hudson Rock',
     link: 'https://hudsonrock.com/free-tools/?=webcheck',
     icon: 'https://pixelflare.cc/alicia/icons/hudson-rock.png/w128',
     description: 'Identify Infostealer infection data related to domains and emails',
+    categories: ['security'],
   },
   {
     title: 'SSL Labs Test',
@@ -106,6 +113,7 @@ const resources = [
     icon: 'https://pixelflare.cc/alicia/icons/qualys-ssl-labs.png/w128',
     description: 'Analyzes the SSL configuration of a server and grades it',
     searchLink: 'https://www.ssllabs.com/ssltest/analyze.html?d={DOMAIN}',
+    categories: ['security', 'server'],
   },
   {
     title: 'Virus Total',
@@ -113,6 +121,7 @@ const resources = [
     icon: 'https://pixelflare.cc/alicia/icons/virustotal.png/w128',
     description: 'Checks a URL against multiple antivirus engines',
     searchLink: 'https://www.virustotal.com/gui/domain/{DOMAIN}',
+    categories: ['security'],
   },
   {
     title: 'Shodan',
@@ -120,6 +129,7 @@ const resources = [
     icon: 'https://pixelflare.cc/alicia/icons/shodan.png/w128',
     description: 'Search engine for Internet-connected devices',
     searchLink: 'https://www.shodan.io/search/report?query={DOMAIN}',
+    categories: ['security', 'server'],
   },
   {
     title: 'Archive',
@@ -127,6 +137,7 @@ const resources = [
     icon: 'https://pixelflare.cc/alicia/icons/internet-archive.png/w128',
     description: 'View previous versions of a site via the Internet Archive',
     searchLink: 'https://web.archive.org/web/*/{URL}',
+    categories: ['seo'],
   },
   {
     title: 'URLScan',
@@ -134,6 +145,7 @@ const resources = [
     icon: 'https://pixelflare.cc/alicia/icons/urlscan.png/w128',
     description: 'Scans a URL and provides information about the page',
     searchLink: 'https://urlscan.io/domain/{DOMAIN}',
+    categories: ['security', 'privacy'],
   },
   {
     title: 'Sucuri SiteCheck',
@@ -141,6 +153,7 @@ const resources = [
     icon: 'https://pixelflare.cc/alicia/icons/sucuri.png/w128',
     description: 'Checks a URL against blacklists and known threats',
     searchLink: 'https://sitecheck.sucuri.net/results/{DOMAIN}',
+    categories: ['security'],
   },
   {
     title: 'Domain Tools',
@@ -148,6 +161,7 @@ const resources = [
     icon: 'https://pixelflare.cc/alicia/icons/domaintools.png/w128',
     description: 'Run a WhoIs lookup on a domain',
     searchLink: 'https://whois.domaintools.com/{DOMAIN}',
+    categories: ['domain', 'privacy'],
   },
   {
     title: 'NS Lookup',
@@ -155,6 +169,7 @@ const resources = [
     icon: 'https://pixelflare.cc/alicia/icons/nslookup.png/w128',
     description: 'View DNS records for a domain',
     searchLink: 'https://www.nslookup.io/domains/{DOMAIN}/dns-records/',
+    categories: ['domain', 'email'],
   },
   {
     title: 'DNS Checker',
@@ -162,6 +177,7 @@ const resources = [
     icon: 'https://pixelflare.cc/alicia/icons/dns-checker.png/w128',
     description: 'Check global DNS propagation across multiple servers',
     searchLink: 'https://dnschecker.org/#A/{DOMAIN}',
+    categories: ['domain'],
   },
   {
     title: 'Censys',
@@ -169,6 +185,7 @@ const resources = [
     icon: 'https://pixelflare.cc/alicia/icons/censys.png/w128',
     description: 'Lookup hosts associated with a domain',
     searchLink: 'https://search.censys.io/search?resource=hosts&q={DOMAIN}',
+    categories: ['security', 'server'],
   },
   {
     title: 'Page Speed Insights',
@@ -176,6 +193,7 @@ const resources = [
     icon: 'https://pixelflare.cc/alicia/icons/page-speed-insights.png/w128',
     description: 'Checks the performance, accessibility and SEO of a page on mobile + desktop',
     searchLink: 'https://developers.google.com/speed/pagespeed/insights/?url={URL}',
+    categories: ['performance', 'seo'],
   },
   {
     title: 'Built With',
@@ -183,12 +201,14 @@ const resources = [
     icon: 'https://pixelflare.cc/alicia/icons/built-with.png/w128',
     description: 'View the tech stack of a website',
     searchLink: 'https://builtwith.com/{DOMAIN}',
+    categories: ['server', 'privacy'],
   },
   {
     title: 'DNS Dumpster',
     link: 'https://dnsdumpster.com/',
     icon: 'https://pixelflare.cc/alicia/icons/dnsdumpster.png/w128',
     description: "DNS recon tool, to map out a domain from it's DNS records",
+    categories: ['domain', 'security'],
   },
   {
     title: 'BGP Tools',
@@ -196,6 +216,7 @@ const resources = [
     icon: 'https://pixelflare.cc/alicia/icons/bgp-tools.png/w128',
     description: 'View realtime BGP data for any ASN, Prefix or DNS',
     searchLink: 'https://bgp.tools/dns/{DOMAIN}',
+    categories: ['server', 'domain'],
   },
   {
     title: 'Similar Web',
@@ -203,6 +224,7 @@ const resources = [
     icon: 'https://pixelflare.cc/alicia/icons/similar-web.png/w128',
     description: 'View approx traffic and engagement stats for a website',
     searchLink: 'https://similarweb.com/website/{DOMAIN}/',
+    categories: ['seo'],
   },
   {
     title: 'Blacklist Checker',
@@ -210,6 +232,7 @@ const resources = [
     icon: 'https://pixelflare.cc/alicia/icons/black-list-checker.png/w128',
     description: 'Check if a domain, IP or email is present on the top blacklists',
     searchLink: 'https://blacklistchecker.com/check?input={DOMAIN}',
+    categories: ['security', 'email'],
   },
   {
     title: 'Cloudflare Radar',
@@ -217,6 +240,7 @@ const resources = [
     icon: 'https://pixelflare.cc/alicia/icons/cloudflare.png/w128',
     description: 'View traffic source locations for a domain through Cloudflare',
     searchLink: 'https://radar.cloudflare.com/domains/domain/{DOMAIN}',
+    categories: ['seo'],
   },
   {
     title: 'Mozilla HTTP Observatory',
@@ -225,13 +249,15 @@ const resources = [
     description:
       'Assesses website security posture by analyzing various security headers and practices',
     searchLink: 'https://developer.mozilla.org/en-US/observatory/analyze?host={DOMAIN}',
+    categories: ['security', 'privacy'],
   },
   {
     title: 'AbuseIPDB',
     link: 'https://abuseipdb.com/',
     icon: 'https://pixelflare.cc/alicia/icons/abuseipdb.png/w128',
-    description: "Checks a website against Zscaler's dynamic risk scoring engine",
+    description: 'Check if a domain or IP has been reported for abusive activity',
     searchLink: 'https://www.abuseipdb.com/check?query={DOMAIN}',
+    categories: ['security', 'server'],
   },
   {
     title: 'IBM X-Force Exchange',
@@ -239,6 +265,7 @@ const resources = [
     icon: 'https://pixelflare.cc/alicia/icons/ibm-x-force-exchange.png/w128',
     description: 'View shared human and machine generated threat intelligence',
     searchLink: 'https://exchange.xforce.ibmcloud.com/url/{URL_ENCODED}',
+    categories: ['security'],
   },
   {
     title: 'URLVoid',
@@ -246,6 +273,7 @@ const resources = [
     icon: 'https://pixelflare.cc/alicia/icons/urlvoid.png/w128',
     description: 'Checks a website across 30+ blocklist engines and website reputation services',
     searchLink: 'https://urlvoid.com/scan/{DOMAIN}',
+    categories: ['security'],
   },
   {
     title: 'URLhaus',
@@ -253,16 +281,18 @@ const resources = [
     icon: 'https://pixelflare.cc/alicia/icons/urlhaus.png/w128',
     description: "Checks if the site is in URLhaus's malware URL exchange",
     searchLink: 'https://urlhaus.abuse.ch/browse.php?search={URL_ENCODED}',
+    categories: ['security'],
   },
   {
     title: 'ANY.RUN',
     link: 'https://any.run/',
     icon: 'https://pixelflare.cc/alicia/icons/anyrun.png/w128',
     description: 'An interactive malware and web sandbox',
+    categories: ['security'],
   },
 ];
 
-const makeLink = (resource: any, scanUrl: string | undefined): string => {
+const makeLink = (resource: Resource, scanUrl: string | undefined): string => {
   return scanUrl && resource.searchLink
     ? resource.searchLink
         .replaceAll('{URL}', scanUrl.replace(/(https?:\/\/)?/i, ''))
@@ -280,18 +310,28 @@ const makeLink = (resource: any, scanUrl: string | undefined): string => {
     : resource.link;
 };
 
-const AdditionalResources = (props: { url?: string }): JSX.Element => {
+const AdditionalResources = ({
+  url,
+  categories,
+}: {
+  url?: string;
+  categories?: CategoryId[];
+}): JSX.Element | null => {
+  const shown = categories
+    ? resources.filter((r) => r.categories.some((c) => categories.includes(c)))
+    : resources;
+  if (!shown.length) return null;
   return (
     <Card heading="External Tools for Further Research" styles={CardStyles}>
       <ResourceListOuter>
-        {resources.map((resource, index) => {
+        {shown.map((resource, index) => {
           return (
             <li key={index}>
               <a
                 className="resource-wrap"
                 target="_blank"
                 rel="noreferrer"
-                href={makeLink(resource, props.url)}
+                href={makeLink(resource, url)}
               >
                 <p className="resource-title">{resource.title}</p>
                 <span

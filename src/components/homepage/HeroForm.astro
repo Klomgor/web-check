@@ -1,6 +1,6 @@
 ---
-import AnimatedButton from './AnimatedButton.astro';
-import AnimatedInput from './AnimatedInput.astro';
+import AnimatedButton from '@components/form/AnimatedButton.astro';
+import AnimatedInput from '@components/form/AnimatedInput.astro';
 import Screenshots from './Screenshots.astro';
 ---
 
@@ -14,8 +14,7 @@ import Screenshots from './Screenshots.astro';
     <div class="homepage-action-content">
       <h2>We give you X-Ray<br />Vision for your Website</h2>
       <h3>
-        In just 20 seconds, you can see
-        <span>what attackers already know</span>
+        In just 20 seconds, you can see <span>what attackers already know</span>
       </h3>
       <form name="live-start" autocomplete="off" action="/check" class="live-start" id="live-start">
         <label for="url">Enter a URL to start 👇</label>

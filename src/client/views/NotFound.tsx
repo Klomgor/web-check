@@ -2,26 +2,19 @@ import styled from '@emotion/styled';
 
 import colors from 'client/styles/colors';
 import Heading from 'client/components/Form/Heading';
-import Footer from 'client/components/misc/Footer';
-import Nav from 'client/components/Form/Nav';
 import Button from 'client/components/Form/Button';
 import { StyledCard } from 'client/components/Form/Card';
 
 const AboutContainer = styled.div`
-  width: 95vw;
+  width: var(--page-width);
   max-width: 1000px;
   margin: 2rem auto;
   padding-bottom: 1rem;
-  header {
-    margin 1rem 0;
-  }
   a {
     color: ${colors.primary};
   }
-  .im-drink { font-size: 6rem; }
-  header {
-    width: auto;
-    margin: 1rem;
+  .im-drink {
+    font-size: 6rem;
   }
 `;
 
@@ -40,36 +33,32 @@ const NotFoundInner = styled(StyledCard)`
   align-items: center;
   margin: 1rem;
   gap: 0.5rem;
-  h2 {
+  p {
     font-size: 8rem;
   }
 `;
 
 const NotFound = (): JSX.Element => {
   return (
-    <>
-      <AboutContainer>
-        <Nav />
-        <NotFoundInner>
-          <Heading as="h2" size="large" color={colors.primary}>
-            404
-          </Heading>
-          <span className="im-drink">🥴</span>
-          <Heading as="h3" size="large" color={colors.primary}>
-            Not Found
-          </Heading>
-          <HeaderLinkContainer>
-            <a href="/">
-              <Button>Back to Homepage</Button>
-            </a>
-          </HeaderLinkContainer>
-          <a target="_blank" rel="noreferrer" href="https://github.com/lissy93/web-check">
-            Report Issue
+    <AboutContainer>
+      <NotFoundInner>
+        <Heading as="p" size="large" color={colors.primary}>
+          404
+        </Heading>
+        <span className="im-drink">🥴</span>
+        <Heading as="h3" size="large" color={colors.primary}>
+          Not Found
+        </Heading>
+        <HeaderLinkContainer>
+          <a href="/">
+            <Button>Back to Homepage</Button>
           </a>
-        </NotFoundInner>
-      </AboutContainer>
-      <Footer isFixed={true} />
-    </>
+        </HeaderLinkContainer>
+        <a target="_blank" rel="noreferrer" href="https://github.com/lissy93/web-check">
+          Report Issue
+        </a>
+      </NotFoundInner>
+    </AboutContainer>
   );
 };
 

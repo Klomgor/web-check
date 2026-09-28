@@ -38,6 +38,7 @@ const API_DIR = '/api'; // Name of the dir containing the lambda functions
 const dirPath = path.join(__dirname, API_DIR); // Path to the lambda functions dir
 const guiPath = path.join(__dirname, 'dist', 'client');
 const placeholderFilePath = path.join(__dirname, 'public', 'placeholder.html');
+let notFoundFilePath = path.join(__dirname, 'public', 'error.html');
 const handlers = {}; // Will store list of API endpoints
 const { version } = JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json'), 'utf-8'));
 const apiFiles = fs
@@ -208,8 +209,10 @@ if (process.env.DISABLE_GUI && process.env.DISABLE_GUI !== 'false') {
   });
 } else {
   // GUI enabled, and build files present, let's go!!
+  notFoundFilePath = path.join(guiPath, '404.html');
   app.use(express.static('dist/client/'));
   app.use(async (req, res, next) => {
+    if (req.path.startsWith(`${API_DIR}/`)) return next();
     const ssrHandlerPath = path.join(__dirname, 'dist', 'server', 'entry.mjs');
     import(ssrHandlerPath)
       .then(({ handler: ssrHandler }) => {
@@ -224,7 +227,7 @@ if (process.env.DISABLE_GUI && process.env.DISABLE_GUI !== 'false') {
 // Anything left unhandled (which isn't an API endpoint), return a 404
 app.use((req, res, next) => {
   if (!req.path.startsWith(`${API_DIR}/`)) {
-    res.status(404).sendFile(path.join(__dirname, 'public', 'error.html'));
+    res.status(404).sendFile(notFoundFilePath);
   } else {
     next();
   }

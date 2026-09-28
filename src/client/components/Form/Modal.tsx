@@ -35,17 +35,18 @@ const Overlay = styled.div`
 
 const ModalWindow = styled.div`
   width: 80%;
-  max-width: 500px;
+  max-width: 700px;
   background: ${colors.backgroundLighter};
   padding: 2rem;
-  border-radius: 12px;
+  border-radius: 4px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   position: relative;
   animation: appear 0.5s;
   color: ${colors.textColor};
-  box-shadow: 4px 4px 0px ${colors.bgShadowColor};
+  border: 1px solid ${colors.primaryTransparent};
   max-height: 80%;
   overflow-y: auto;
+  line-height: 1.5;
   @keyframes appear {
     0% {
       opacity: 0;
@@ -58,6 +59,7 @@ const ModalWindow = styled.div`
   }
   pre {
     white-space: break-spaces;
+    font-family: var(--font-mono);
   }
 `;
 

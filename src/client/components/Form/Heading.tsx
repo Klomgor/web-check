@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import colors from 'client/styles/colors';
 import { TextSizes } from 'client/styles/typography';
 import type { ReactNode } from 'react';
 
@@ -16,7 +15,6 @@ interface HeadingProps {
 
 const StyledHeading = styled.h1<HeadingProps>`
   margin: 0.5rem 0;
-  text-shadow: 2px 2px 0px ${colors.bgShadowColor};
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
@@ -78,7 +76,7 @@ const Heading = (props: HeadingProps): JSX.Element => {
       color={color}
       inline={inline}
       className={className}
-      id={id || makeAnchor((children || '')?.toString())}
+      id={id || (typeof children === 'string' ? makeAnchor(children) : undefined)}
     >
       {children}
     </StyledHeading>

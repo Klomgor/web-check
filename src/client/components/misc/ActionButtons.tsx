@@ -20,7 +20,7 @@ interface Action {
 
 const actionButtonStyles = `
   padding: 0 0.25rem;
-  font-size: 1.25rem;
+  font-size: 1rem;
   text-align: center;
   width: 1.5rem;
   height: 1.5rem;
