@@ -59,6 +59,7 @@ const TechStackRow = styled.div`
     overflow: hidden;
     &.tech-website {
       -webkit-line-clamp: 1;
+      word-break: break-all;
     }
     a {
       color: ${colors.primary};

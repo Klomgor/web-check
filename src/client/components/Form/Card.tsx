@@ -14,6 +14,7 @@ export const StyledCard = styled.section<{ styles?: string }>`
   position: relative;
   max-height: 54rem;
   overflow: auto;
+  overflow-wrap: anywhere;
   ${(props) => props.styles}
 `;
 

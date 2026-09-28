@@ -35,7 +35,7 @@ const Overlay = styled.div`
 
 const ModalWindow = styled.div`
   width: 80%;
-  max-width: 500px;
+  max-width: 700px;
   background: ${colors.backgroundLighter};
   padding: 2rem;
   border-radius: 4px;

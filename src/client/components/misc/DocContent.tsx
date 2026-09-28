@@ -15,9 +15,6 @@ const JobDocsContainer = styled.div`
   ul li a {
     color: ${colors.primary};
   }
-  summary {
-    color: ${colors.primary};
-  }
   h4 {
     border-top: 1px solid ${colors.primary};
     color: ${colors.primary};
@@ -64,16 +61,6 @@ const DocContent = (id: string) => {
             )}
           </ul>
         </>
-      )}
-      {doc.screenshot && (
-        <details>
-          <summary>
-            <Heading as="h4" size="small">
-              Example
-            </Heading>
-          </summary>
-          <img width="300" src={doc.screenshot} alt="Screenshot" />
-        </details>
       )}
     </JobDocsContainer>
   ) : (

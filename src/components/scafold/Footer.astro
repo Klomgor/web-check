@@ -128,7 +128,7 @@ const linkGroups = [
       display: grid;
       grid-template-columns: repeat(3, auto);
       gap: $gap;
-      @include desktop-down {
+      @include tablet-landscape-down {
         grid-template-columns: repeat(2, auto);
         > div:has(li:nth-child(6)) {
           grid-row: span 2;

@@ -5,7 +5,8 @@ import Row from 'client/components/Form/Row';
 const cardStyles = `
   div {
     justify-content: flex-start;
-    align-items: baseline; 
+    align-items: baseline;
+    flex-wrap: nowrap;
   }
   .arrow-thing {
     color: ${colors.primary};
