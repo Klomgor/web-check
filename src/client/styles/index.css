@@ -1,11 +1,6 @@
 code {
   font-family: var(--font-mono);
 }
-#fancy-background {
-  position: absolute;
-  z-index: -1;
-  color: var(--background);
-}
 
 svg.rsm-svg {
   background: var(--background);

@@ -1,6 +1,5 @@
 import { Routes, Route, Outlet } from 'react-router';
 
-import Home from 'client/views/Home.tsx';
 import Results from 'client/views/Results.tsx';
 import NotFound from 'client/views/NotFound.tsx';
 
@@ -21,8 +20,6 @@ export default function App() {
     <ErrorBoundary>
       <Routes>
         <Route path="/check" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="home" element={<Home />} />
           <Route path=":urlToScan" element={<Results />} />
           <Route path="*" element={<NotFound />} />
         </Route>

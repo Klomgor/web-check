@@ -15,7 +15,7 @@ interface Props {
 <BaseLayout {...Astro.props}>
   <slot name="head" slot="head" />
   <div class="web-check-page">
-    <DotGrid />
+    <slot name="background"><DotGrid /></slot>
     <slot name="nav"><NavBar /></slot>
     <main>
       <slot />
