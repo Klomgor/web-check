@@ -24,7 +24,7 @@ import { hasData } from 'client/utils/result-processor';
 import keys from 'client/utils/get-keys';
 import useJobs from 'client/hooks/useJobs';
 import { isCategory } from '@/data/categories';
-import { isCheck } from '@/data/checks';
+import { checks, isCheck } from '@/data/checks';
 import { jobsFor, cardsFor } from 'client/jobs/registry';
 import { runAnalysis } from 'client/analysis/registry';
 
@@ -212,7 +212,10 @@ const Results = (props: { address?: string }): JSX.Element => {
           }))}
         />
       )}
-      <AdditionalResources url={address} />
+      <AdditionalResources
+        url={address}
+        categories={check ? checks[check].categories : category && [category]}
+      />
 
       <Modal isOpen={modalOpen} closeModal={() => setModalOpen(false)}>
         {modalContent}
