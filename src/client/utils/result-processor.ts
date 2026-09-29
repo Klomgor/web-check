@@ -89,21 +89,44 @@ export const getHostNames = (response: any): HostNames | null => {
   return results;
 };
 
+export interface Vuln {
+  id: string;
+  cvss?: number;
+  epss?: number;
+  kev?: boolean;
+  port?: number;
+  product?: string;
+}
+
+// Merge scored CVEs from each service banner with the host-level list, riskiest first
+const getVulns = (response: any): Vuln[] => {
+  const found: Record<string, Vuln> = {};
+  for (const b of response?.data || []) {
+    for (const [id, v] of Object.entries<any>(b?.vulns || {})) {
+      found[id] = { id, cvss: v.cvss, epss: v.epss, kev: v.kev, port: b.port, product: b.product };
+    }
+  }
+  const ids = Array.isArray(response?.vulns) ? response.vulns : Object.keys(response?.vulns || {});
+  for (const id of ids) if (!found[id]) found[id] = { id };
+  return Object.values(found).sort(
+    (a, b) =>
+      Number(!!b.kev) - Number(!!a.kev) ||
+      (b.epss ?? 0) - (a.epss ?? 0) ||
+      (b.cvss ?? 0) - (a.cvss ?? 0),
+  );
+};
+
 export interface ShodanResults {
   hostnames: HostNames | null;
   serverInfo: ServerInfo | null;
-  vulns: string[];
+  vulns: Vuln[];
 }
 
 export const parseShodanResults = (response: any): ShodanResults => {
   return {
     hostnames: getHostNames(response),
     serverInfo: getServerInfo(response),
-    vulns: Array.isArray(response?.vulns)
-      ? response.vulns
-      : response?.vulns && typeof response.vulns === 'object'
-        ? Object.keys(response.vulns)
-        : [],
+    vulns: getVulns(response),
   };
 };
 
