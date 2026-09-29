@@ -15,7 +15,6 @@ import cookies from './rules/cookies';
 import headers from './rules/headers';
 import ports from './rules/ports';
 import mailConfig from './rules/mail-config';
-import txtRecords from './rules/txt-records';
 import tlsConnection from './rules/tls-connection';
 import tlsSecurityAudit from './rules/tls-security-audit';
 import quality from './rules/quality';
@@ -42,7 +41,6 @@ export const analyzers: Partial<Record<CheckId, Analyzer>> = {
   headers,
   ports,
   'mail-config': mailConfig,
-  'txt-records': txtRecords,
   'tls-connection': tlsConnection,
   'tls-security-audit': tlsSecurityAudit,
   quality,

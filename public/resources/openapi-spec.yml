@@ -1189,10 +1189,32 @@ paths:
                       type: array
                       items:
                         type: string
-                    description: List of TXT records
+                    description: SPF, DMARC, BIMI and DKIM TXT records, each split into DNS chunks
                     example:
                       - ['v=spf1 include:_spf.google.com ~all']
-                      - ['google-site-verification=wD8N7i1JTNTkezJ49swvWW48f8_9xveREV4oB-0Hf5o']
+                      - ['v=DMARC1; p=reject; rua=mailto:dmarc@example.com']
+                  dmarcDomain:
+                    type: string
+                    description: Parent domain the DMARC record came from, when the host has none of its own
+                    example: 'github.com'
+                  spfLookups:
+                    type: integer
+                    description: DNS lookups the SPF record uses, including nested includes (limit is 10)
+                    example: 7
+                  dkim:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        selector:
+                          type: string
+                          example: 'google'
+                        bits:
+                          type: integer
+                          nullable: true
+                          description: RSA key size, or null for other key types
+                          example: 2048
+                    description: Live DKIM keys found on common selectors
                   mailServices:
                     type: array
                     items:
@@ -1204,9 +1226,9 @@ paths:
                           example: 'Google Workspace'
                         value:
                           type: string
-                          description: The verification value for the mail service
-                          example: 'wD8N7i1JTNTkezJ49swvWW48f8_9xveREV4oB-0Hf5o'
-                    description: List of mail services and their verification values
+                          description: The MX hostname the provider was detected from
+                          example: 'aspmx.l.google.com'
+                    description: Mail providers detected from the MX records
         '204':
           $ref: '#/components/responses/Skipped'
         '500':
