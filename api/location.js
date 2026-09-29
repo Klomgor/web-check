@@ -6,9 +6,9 @@ import { createLogger } from './_common/logger.js';
 const log = createLogger('location');
 const TIMEOUT = 4000;
 
-// Server-side fetch, no-cors so providers don't reject Sec-Fetch-Mode: cors
+// Fetch and parse JSON, throwing on non-2xx responses
 const getJson = async (url, signal) => {
-  const r = await fetch(url, { mode: 'no-cors', signal });
+  const r = await fetch(url, { signal });
   if (!r.ok) throw new Error(`status ${r.status}`);
   return r.json();
 };
@@ -121,42 +121,6 @@ const lookupGeo = async (ip) => {
   }
 };
 
-// Fetch country-level metadata to fill fields not provided by every geo source
-const enrichCountry = async (code) => {
-  if (!code) return {};
-  try {
-    const data = await getJson(
-      `https://restcountries.com/v3.1/alpha/${code}` +
-        '?fields=tld,languages,currencies,area,population',
-    );
-    const c = Array.isArray(data) ? data[0] : data;
-    if (!c) {
-      log.debug(`restcountries returned no entry for ${code}`);
-      return {};
-    }
-    const languages = c.languages ? Object.values(c.languages).join(', ') : undefined;
-    const currCode = c.currencies ? Object.keys(c.currencies)[0] : undefined;
-    const curr = currCode ? c.currencies[currCode] : null;
-    return {
-      country_tld: c.tld?.[0],
-      languages,
-      currency: currCode,
-      currency_name: curr?.name,
-      country_area: c.area,
-      country_population: c.population,
-    };
-  } catch (error) {
-    log.debug(`restcountries enrichment failed for ${code}`, error.message);
-    return {};
-  }
-};
-
-// Strip empty values so they don't shadow enrichment defaults during merge
-const compact = (o) =>
-  Object.fromEntries(
-    Object.entries(o).filter(([, v]) => v !== undefined && v !== null && v !== ''),
-  );
-
 // Resolve hostname to IP so providers requiring a numeric address still work
 const resolveHost = async (hostname) => {
   try {
@@ -167,7 +131,7 @@ const resolveHost = async (hostname) => {
   }
 };
 
-// Resolve geographic info for a host via a chain of providers with country enrichment
+// Resolve geographic info for a host via a chain of providers
 const locationHandler = async (url) => {
   const { hostname } = parseTarget(url);
   const ip = await resolveHost(hostname);
@@ -176,8 +140,7 @@ const locationHandler = async (url) => {
     log.error(`all geo providers failed for ${ip}`);
     return { error: 'IP location lookup unavailable across all providers, please try again later' };
   }
-  const enrichment = await enrichCountry(geo.country_code);
-  return { ...enrichment, ...compact(geo) };
+  return geo;
 };
 
 export const handler = middleware(locationHandler);

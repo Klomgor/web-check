@@ -11,12 +11,6 @@ export interface ServerLocation {
   };
   isp: string;
   timezone: string;
-  languages: string;
-  currency: string;
-  currencyCode: string;
-  countryDomain: string;
-  countryAreaSize: number;
-  countryPopulation: number;
 }
 
 export interface Whois {
@@ -40,12 +34,6 @@ export const getLocation = (response: any): ServerLocation => {
     },
     isp: response.org,
     timezone: response.timezone,
-    languages: response.languages,
-    currencyCode: response.currency,
-    currency: response.currency_name,
-    countryDomain: response.country_tld,
-    countryAreaSize: response.country_area,
-    countryPopulation: response.country_population,
   };
 };
 
