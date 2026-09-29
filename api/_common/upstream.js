@@ -5,8 +5,9 @@ export const upstreamError = (error, context = 'Lookup') => {
   if (status === 401 || status === 403) return { error: `${context} blocked (HTTP ${status})` };
   if (status === 429) return { error: `${context} rate-limited by upstream` };
   if (status && status >= 500) return { error: `${context} upstream is unavailable` };
-  if (error.code === 'ECONNABORTED') return { error: `${context} timed out` };
+  if (['ECONNABORTED', 'ETIMEOUT'].includes(error.code)) return { error: `${context} timed out` };
   if (error.code === 'ENOTFOUND') return { skipped: 'Host could not be resolved' };
+  if (error.code === 'ESERVFAIL') return { error: `${context} failed: SERVFAIL from nameservers` };
   if (error.code === 'ECONNREFUSED') return { error: 'Connection refused by upstream' };
   return { error: `${context} failed: ${error.message}` };
 };

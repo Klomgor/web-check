@@ -3,10 +3,10 @@ import type { Check } from '.';
 export default {
   title: 'DNS Server',
   categories: ['domain'],
-  summary: 'Which nameservers answer for the domain, and whether they support DoH',
+  summary: 'Which nameservers answer for the domain, and their IP addresses',
   description:
-    'Identifies the nameservers answering for the domain, then checks whether they ' +
-    'support DNS over HTTPS and runs a rough test for resistance to cache poisoning.',
+    'Finds the nameservers for the zone the domain belongs to, and resolves each to an ' +
+    "IP address. Subdomains without their own nameservers show their parent zone's.",
   use:
     "The nameservers tell you who runs the domain's DNS, which is often a different " +
     'company from the one hosting the site. Domains sharing an unusual set of ' +
