@@ -9,6 +9,7 @@ import ssl from './rules/ssl';
 import dnssec from './rules/dnssec';
 import securityTxt from './rules/security-txt';
 import threats from './rules/threats';
+import breaches from './rules/breaches';
 import blockLists from './rules/block-lists';
 import firewall from './rules/firewall';
 import cookies from './rules/cookies';
@@ -35,6 +36,7 @@ export const analyzers: Partial<Record<CheckId, Analyzer>> = {
   dnssec,
   'security-txt': securityTxt,
   threats,
+  breaches,
   'block-lists': blockLists,
   firewall,
   cookies,

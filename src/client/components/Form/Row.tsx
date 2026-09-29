@@ -72,7 +72,7 @@ const SubRowList = styled.ul`
 
 const PlainText = styled.pre`
   background: ${colors.background};
-  width: 95%;
+  width: 100%;
   white-space: pre-wrap;
   word-wrap: break-word;
   border-radius: 4px;
@@ -81,7 +81,7 @@ const PlainText = styled.pre`
 
 const List = styled.ul`
   // background: ${colors.background};
-  width: 95%;
+  width: 100%;
   white-space: pre-wrap;
   word-wrap: break-word;
   border-radius: 4px;
