@@ -19,8 +19,15 @@ const fileEnv = loadEnv(process.env.NODE_ENV || 'development', process.cwd(), ''
 const unwrapEnvVar = (varName, fallbackValue) =>
   process.env[varName] ?? fileEnv[varName] ?? fallbackValue;
 
+// Infer the platform from the env vars they set
+const guessPlatform = () => {
+  if (process.env.VERCEL) return 'vercel';
+  if (process.env.NETLIFY) return 'netlify';
+  return 'node';
+};
+
 // Determine the deploy target (vercel, netlify, node)
-const deployTarget = unwrapEnvVar('PLATFORM', 'node').toLowerCase();
+const deployTarget = unwrapEnvVar('PLATFORM', guessPlatform()).toLowerCase();
 
 // Determine the output mode (static or server). Mixed prerender supported in static mode
 const output = unwrapEnvVar('OUTPUT', 'static');
