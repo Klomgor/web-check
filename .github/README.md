@@ -170,27 +170,15 @@ But there are some optional environmental variables that you can set to give you
 
 **API Keys & Credentials**:
 
-| Key                        | Value                                                                                                                                                 |
-| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `GOOGLE_CLOUD_API_KEY`     | A Google API key with the PageSpeed Insights API enabled ([get here](https://developers.google.com/speed/docs/insights/v5/get-started)). This can be used to return quality metrics for a site |
-| `REACT_APP_SHODAN_API_KEY` | A Shodan API key ([get here](https://account.shodan.io/)). This will show associated host names for a given domain                                    |
-| `REACT_APP_WHO_API_KEY`    | A WhoAPI key ([get here](https://whoapi.com/)). This will show more comprehensive WhoIs records than the default job                                  |
-
-<details>
-  <summary><small>Full / Upcoming Vals</small></summary>
-
-- `GOOGLE_CLOUD_API_KEY` - A Google API key with the PageSpeed Insights API enabled ([get here](https://developers.google.com/speed/docs/insights/v5/get-started)). This can be used to return quality metrics for a site
-- `REACT_APP_SHODAN_API_KEY` - A Shodan API key ([get here](https://account.shodan.io/)). This will show associated host names for a given domain
-- `REACT_APP_WHO_API_KEY` - A WhoAPI key ([get here](https://whoapi.com/)). This will show more comprehensive WhoIs records than the default job
-- `SECURITY_TRAILS_API_KEY` - A Security Trails API key ([get here](https://securitytrails.com/corp/api)). This will show org info associated with the IP
-- `CLOUDMERSIVE_API_KEY` - API key for Cloudmersive ([get here](https://account.cloudmersive.com/)). This will show known threats associated with the IP
-- `TRANCO_USERNAME` - A Tranco email ([get here](https://tranco-list.eu/)). This will show the rank of a site, based on traffic
-- `TRANCO_API_KEY` - A Tranco API key ([get here](https://tranco-list.eu/)). This will show the rank of a site, based on traffic
-- `URL_SCAN_API_KEY` - A URLScan API key ([get here](https://urlscan.io/)). This will fetch miscellaneous info about a site
-- `BUILT_WITH_API_KEY` - A BuiltWith API key ([get here](https://api.builtwith.com/)). This will show the main features of a site
-- `TORRENT_IP_API_KEY` - A torrent API key ([get here](https://iknowwhatyoudownload.com/en/api/)). This will show torrents downloaded by an IP
-
-</details>
+| Key                    | Value                                                                                                                                                                                                 |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `GOOGLE_CLOUD_API_KEY` | A Google API key with the PageSpeed Insights and Safe Browsing APIs enabled ([get here](https://developers.google.com/speed/docs/insights/v5/get-started)). Runs the quality and Safe Browsing checks |
+| `SHODAN_API_KEY`       | A Shodan API key ([get here](https://account.shodan.io/)). Runs the host names, server info and vulnerabilities checks                                                                                |
+| `CLOUDMERSIVE_API_KEY` | A Cloudmersive API key ([get here](https://account.cloudmersive.com/)). Adds the Cloudmersive website scan to the threats check                                                                       |
+| `TRANCO_API_KEY`       | A Tranco API key ([get here](https://tranco-list.eu/)). Raises the Tranco rate limit for the rank check                                                                                               |
+| `TRANCO_USERNAME`      | Your Tranco account email, used with the key above                                                                                                                                                    |
+| `GITHUB_TOKEN`         | A GitHub token ([get here](https://github.com/settings/tokens)). Raises the GitHub rate limit for the social presence check                                                                           |
+| `CERTSPOTTER_TOKEN`    | A CertSpotter API token ([get here](https://sslmate.com/certspotter/api/)). Raises the CertSpotter rate limit for the subdomains check                                                                |
 
 **Configuration Settings**:
 
@@ -205,13 +193,13 @@ But there are some optional environmental variables that you can set to give you
 | `API_BLOCKED_HOSTS`        | Hosts that must never be scanned (e.g. `lan.example.com,192.168.0.0/16`)   |
 | `CHROME_PATH`              | The path the Chromium executable (e.g. `/usr/bin/chromium`)                |
 | `DISABLE_GUI`              | Disable the GUI, and only serve the API (e.g. `false`)                     |
-| `REACT_APP_API_ENDPOINT`   | The endpoint for the API, either local or remote (e.g. `/api`)             |
+| `PUBLIC_API_ENDPOINT`      | The endpoint for the API, either local or remote (e.g. `/api`)             |
 
 All values are optional.
 
 You can add these as environmental variables. Either put them directly into an `.env` file in the projects root, or via the Netlify / Vercel UI, or by passing to the Docker container with the --env flag, or using your own environmental variable management system
 
-Note that keys that are prefixed with `REACT_APP_` are used client-side, and as such they must be scoped correctly with minimum privileges, since may be made visible when intercepting browser <-> server network requests
+Note that values prefixed with `PUBLIC_` are read by the frontend at build time, so you need to rebuild after changing them
 
 ---
 
