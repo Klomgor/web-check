@@ -126,8 +126,7 @@ const checkSubdomainDmarc = (d: MailData): Result | null => {
   return {
     severity: 'warning',
     title: "DMARC policy doesn't cover subdomains",
-    detail: `sp=${sp} lets spoofed mail from subdomains through. "
-    + "Set sp=quarantine or sp=reject, or remove sp so subdomains follow p`,
+    detail: `sp=${sp} lets spoofed mail from subdomains through. Set sp=quarantine or sp=reject, or remove sp so subdomains follow p`,
   };
 };
 
