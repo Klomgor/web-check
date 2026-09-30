@@ -7,9 +7,8 @@ export default {
   description:
     'Finds subdomains through public Certificate Transparency logs, via crt.sh. Every ' +
     'certificate a CA issues is logged publicly, so any hostname anyone has ever ' +
-    'requested a certificate for ends up on record. The check resolves the ' +
-    'registrable domain, then collects and deduplicates the names from every ' +
-    'certificate issued beneath it.',
+    'requested a certificate for ends up on record. Any address on the domain works, ' +
+    'so www.example.com and shop.example.com both list every subdomain of example.com.',
   use:
     'Subdomains are where the forgotten things live: staging servers, admin panels, ' +
     'old campaign sites, a dashboard somebody stood up for a demo and never took ' +

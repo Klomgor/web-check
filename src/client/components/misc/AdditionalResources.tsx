@@ -290,6 +290,14 @@ const resources: Resource[] = [
     description: 'An interactive malware and web sandbox',
     categories: ['security'],
   },
+  {
+    title: 'Blacklight',
+    link: 'https://themarkup.org/blacklight',
+    icon: 'https://pixelflare.cc/alicia/icons/the-markup.png/w128',
+    description: 'Reveals the trackers, cookies and fingerprinting a site uses on its visitors',
+    searchLink: 'https://themarkup.org/blacklight?url={DOMAIN}',
+    categories: ['privacy', 'security'],
+  },
 ];
 
 const makeLink = (resource: Resource, scanUrl: string | undefined): string => {

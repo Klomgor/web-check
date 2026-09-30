@@ -30,7 +30,7 @@ export default {
     },
     { title: 'resourcepolicy.fyi', link: 'https://resourcepolicy.fyi/' },
     { title: 'HTTP Security Headers', link: 'https://securityheaders.com/' },
-    { title: 'Mozilla Observatory', link: 'https://observatory.mozilla.org/' },
+    { title: 'Mozilla HTTP Observatory', link: 'https://developer.mozilla.org/en-US/observatory' },
     { title: 'CSP Docs', link: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP' },
     {
       title: 'HSTS Docs',

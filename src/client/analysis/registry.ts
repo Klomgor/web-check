@@ -9,13 +9,13 @@ import ssl from './rules/ssl';
 import dnssec from './rules/dnssec';
 import securityTxt from './rules/security-txt';
 import threats from './rules/threats';
+import breaches from './rules/breaches';
 import blockLists from './rules/block-lists';
 import firewall from './rules/firewall';
 import cookies from './rules/cookies';
 import headers from './rules/headers';
 import ports from './rules/ports';
 import mailConfig from './rules/mail-config';
-import txtRecords from './rules/txt-records';
 import tlsConnection from './rules/tls-connection';
 import tlsSecurityAudit from './rules/tls-security-audit';
 import quality from './rules/quality';
@@ -36,13 +36,13 @@ export const analyzers: Partial<Record<CheckId, Analyzer>> = {
   dnssec,
   'security-txt': securityTxt,
   threats,
+  breaches,
   'block-lists': blockLists,
   firewall,
   cookies,
   headers,
   ports,
   'mail-config': mailConfig,
-  'txt-records': txtRecords,
   'tls-connection': tlsConnection,
   'tls-security-audit': tlsSecurityAudit,
   quality,

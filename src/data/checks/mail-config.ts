@@ -5,17 +5,21 @@ export default {
   categories: ['email'],
   summary: 'MX, SPF, DKIM and DMARC records for sending and receiving mail',
   description:
-    "Collects the DNS records that govern a domain's email. SPF lists which servers " +
-    'may send on its behalf. DKIM publishes the public key used to sign outgoing ' +
-    'messages, so a recipient can tell nothing was altered in transit. DMARC ties the ' +
-    'two together, telling receiving servers what to do when a message fails and ' +
-    'where to send reports. BIMI, newer and far less common, attaches a verified logo ' +
-    'to a passing DMARC policy so inboxes can display it.',
+    "MX records say which servers receive a domain's mail. SPF lists the servers " +
+    'allowed to send it. DKIM publishes a key that receivers use to check a message ' +
+    'was signed by the domain and not altered. Web Check looks for it under common ' +
+    'selector names, so "Not found" does not prove there is no key. DMARC tells ' +
+    'receivers what to do with mail that fails both SPF and DKIM. A policy of none ' +
+    "only monitors, so the checklist ticks DMARC once it's set to quarantine or " +
+    'reject. BIMI is an optional logo, and most domains skip it.',
   use:
-    'A domain with no SPF, or a DMARC policy set to none, can be spoofed with very ' +
-    'little effort, and most organisations find this out only after somebody has done ' +
-    'it. The records also name the mail provider and every third party authorised to ' +
-    "send, which is a reliable way to map an organisation's vendors.",
+    'Without a DMARC policy of quarantine or reject, anyone can send mail with the ' +
+    "domain in the From line. SPF alone doesn't stop this, because it checks a hidden " +
+    "envelope address, not the one people see. Mistakes hurt the domain's own mail " +
+    'too. If there are two SPF records, or one that needs more than 10 DNS lookups, ' +
+    'SPF fails for every message. The MX hosts and SPF includes name the mail ' +
+    'provider and many of the vendors allowed to send, a quick way to map who an ' +
+    'organisation works with.',
   resources: [
     {
       title: 'Intro to DMARC, DKIM, and SPF (via Cloudflare)',

@@ -182,35 +182,37 @@ const Results = (props: { address?: string }): JSX.Element => {
           loadingJobs.filter((j) => j.state !== 'loading').length < Math.min(5, loadingJobs.length)
         }
       />
-      <AdvisoryPanel findings={findings} onJumpTo={jumpToCard} />
-      <ResultsContent>
-        <ResultsMasonryGrid minColWidth={336}>
-          {cardsToShow.map(({ card, data }) => (
-            <div id={`card-${card.id}`} key={`eb-${card.id}`}>
-              <ErrorBoundary title={card.title}>
-                <card.Component
-                  key={card.id}
-                  data={data}
-                  title={card.title}
-                  actionButtons={makeActionButtons(
-                    card.title,
-                    () => retry(card.id),
-                    () => showInfo(card.id),
-                  )}
-                />
-              </ErrorBoundary>
-            </div>
-          ))}
-        </ResultsMasonryGrid>
-      </ResultsContent>
       {!errorKind && (
-        <ViewRaw
-          everything={renderable.map((r) => ({
-            id: r.card.id,
-            title: r.card.title,
-            result: r.data,
-          }))}
-        />
+        <>
+          <AdvisoryPanel findings={findings} onJumpTo={jumpToCard} />
+          <ResultsContent>
+            <ResultsMasonryGrid minColWidth={336}>
+              {cardsToShow.map(({ card, data }) => (
+                <div id={`card-${card.id}`} key={`eb-${card.id}`}>
+                  <ErrorBoundary title={card.title}>
+                    <card.Component
+                      key={card.id}
+                      data={data}
+                      title={card.title}
+                      actionButtons={makeActionButtons(
+                        card.title,
+                        () => retry(card.id),
+                        () => showInfo(card.id),
+                      )}
+                    />
+                  </ErrorBoundary>
+                </div>
+              ))}
+            </ResultsMasonryGrid>
+          </ResultsContent>
+          <ViewRaw
+            everything={renderable.map((r) => ({
+              id: r.card.id,
+              title: r.card.title,
+              result: r.data,
+            }))}
+          />
+        </>
       )}
       <AdditionalResources
         url={address}

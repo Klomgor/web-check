@@ -106,6 +106,7 @@ const isBlockedTarget = (target) => {
 const publicOnlyChecks = [
   'archives',
   'block-lists',
+  'breaches',
   'dnssec',
   'location',
   'quality',

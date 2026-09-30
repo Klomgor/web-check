@@ -35,6 +35,7 @@ import archives from './archives';
 import rank from './rank';
 import blockLists from './block-lists';
 import threats from './threats';
+import breaches from './breaches';
 import tlsConnection from './tls-connection';
 import tlsSecurityAudit from './tls-security-audit';
 import tlsClientCompat from './tls-client-compat';
@@ -89,6 +90,7 @@ const all = {
   rank,
   'block-lists': blockLists,
   threats,
+  breaches,
   'tls-connection': tlsConnection,
   'tls-security-audit': tlsSecurityAudit,
   'tls-client-compat': tlsClientCompat,

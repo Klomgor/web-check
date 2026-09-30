@@ -16,9 +16,6 @@ const [lead, accent, tail] = info.heading;
   <h1>{lead} <em>{accent}</em> {tail}</h1>
   <p class="tagline">{info.tagline}</p>
   <ScanForm tool={category} label={`Enter a URL to run all ${count} checks`} />
-  <p class="promise">
-    Checks run in parallel, and slow ones time out rather than hold up the rest.
-  </p>
 </section>
 
 <style lang="scss">
@@ -45,12 +42,6 @@ const [lead, accent, tail] = info.heading;
       max-width: 42rem;
       font-size: 1.25rem;
       line-height: 1.5;
-      color: var(--text-color-secondary);
-    }
-
-    .promise {
-      margin: 0;
-      font-size: 0.9rem;
       color: var(--text-color-secondary);
     }
   }

@@ -36,6 +36,7 @@ import ArchivesCard from 'client/components/Results/Archives';
 import RankCard from 'client/components/Results/Rank';
 import BlockListsCard from 'client/components/Results/BlockLists';
 import ThreatsCard from 'client/components/Results/Threats';
+import BreachesCard from 'client/components/Results/Breaches';
 import TlsConnectionCard from 'client/components/Results/TlsConnection';
 import TlsSecurityAuditCard from 'client/components/Results/TlsSecurityAudit';
 import TlsClientCompatCard from 'client/components/Results/TlsClientCompat';
@@ -265,6 +266,12 @@ export const jobs: JobSpec[] = [
     expectedAddressTypes: [...URL_ONLY],
     cards: [card('threats', ThreatsCard)],
     fetcher: fetchAndProcess('threats?url=${url}'),
+  },
+  {
+    id: 'breaches',
+    expectedAddressTypes: [...URL_ONLY],
+    cards: [card('breaches', BreachesCard)],
+    fetcher: fetchAndProcess('breaches?url=${url}'),
   },
   {
     id: 'mail-config',

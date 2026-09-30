@@ -7,6 +7,7 @@ const DnsServerCard = (props: { data: any; title: string; actionButtons: any }):
   const dnsSecurity = props.data;
   return (
     <Card heading={props.title} actionButtons={props.actionButtons}>
+      {dnsSecurity.zone && <Row lbl="Zone" val={dnsSecurity.zone} />}
       {dnsSecurity.dns.map((dns: any, index: number) => {
         return (
           <div key={`dns-${index}`}>

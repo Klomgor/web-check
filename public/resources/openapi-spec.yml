@@ -228,6 +228,76 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '429':
           $ref: '#/components/responses/TooManyRequests'
+  /breaches:
+    get:
+      summary: Retrieve known data breaches of the domain, via Have I Been Pwned
+      tags:
+        - Security
+      parameters:
+        - name: url
+          in: query
+          required: true
+          description: The URL to fetch results about
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  domain:
+                    type: string
+                    description: The registrable domain that was looked up
+                    example: 'adobe.com'
+                  breaches:
+                    type: array
+                    description: Breaches of the domain or its subdomains, newest first
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: HIBP's identifier for the breach
+                          example: 'Adobe'
+                        title:
+                          type: string
+                          example: 'Adobe'
+                        domain:
+                          type: string
+                          description: The breached site
+                          example: 'adobe.com'
+                        date:
+                          type: string
+                          description: When the breach happened
+                          example: '2013-10-04'
+                        accounts:
+                          type: integer
+                          description: Number of accounts in the breach
+                          example: 152445165
+                        exposed:
+                          type: array
+                          description: Kinds of data leaked
+                          items:
+                            type: string
+                          example: ['Email addresses', 'Passwords']
+                        description:
+                          type: string
+                          description: Plain text summary of the breach
+                        verified:
+                          type: boolean
+                          description: Whether HIBP has confirmed the breach is genuine
+                          example: true
+        '204':
+          $ref: '#/components/responses/Skipped'
+        '500':
+          $ref: '#/components/responses/Error'
+        '400':
+          $ref: '#/components/responses/MissingParam'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
   /carbon:
     get:
       summary: Retrieve carbon data
@@ -1189,10 +1259,32 @@ paths:
                       type: array
                       items:
                         type: string
-                    description: List of TXT records
+                    description: SPF, DMARC, BIMI and DKIM TXT records, each split into DNS chunks
                     example:
                       - ['v=spf1 include:_spf.google.com ~all']
-                      - ['google-site-verification=wD8N7i1JTNTkezJ49swvWW48f8_9xveREV4oB-0Hf5o']
+                      - ['v=DMARC1; p=reject; rua=mailto:dmarc@example.com']
+                  dmarcDomain:
+                    type: string
+                    description: Parent domain the DMARC record came from, when the host has none of its own
+                    example: 'github.com'
+                  spfLookups:
+                    type: integer
+                    description: DNS lookups the SPF record uses, including nested includes (limit is 10)
+                    example: 7
+                  dkim:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        selector:
+                          type: string
+                          example: 'google'
+                        bits:
+                          type: integer
+                          nullable: true
+                          description: RSA key size, or null for other key types
+                          example: 2048
+                    description: Live DKIM keys found on common selectors
                   mailServices:
                     type: array
                     items:
@@ -1204,9 +1296,9 @@ paths:
                           example: 'Google Workspace'
                         value:
                           type: string
-                          description: The verification value for the mail service
-                          example: 'wD8N7i1JTNTkezJ49swvWW48f8_9xveREV4oB-0Hf5o'
-                    description: List of mail services and their verification values
+                          description: The MX hostname the provider was detected from
+                          example: 'aspmx.l.google.com'
+                    description: Mail providers detected from the MX records
         '204':
           $ref: '#/components/responses/Skipped'
         '500':
