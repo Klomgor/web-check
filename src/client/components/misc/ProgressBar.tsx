@@ -434,9 +434,6 @@ const ProgressLoader = ({ loadStatus, showModal, showJobDocs }: ProgressLoaderPr
     if (settled / total >= 0.75) autoCollapse();
   }, [loadStatus, autoCollapse]);
 
-  const colorFor = (state: LoadingState) =>
-    state === 'success' && isDone ? colors.primary : STATE_META[state].color;
-
   const showErrorModal = (job: LoadingJob, isInfo?: boolean) => {
     const detailsLabel = job.state === 'skipped' ? 'Reason:' : 'Server response:';
     showModal(
@@ -474,7 +471,7 @@ const ProgressLoader = ({ loadStatus, showModal, showJobDocs }: ProgressLoaderPr
               {(Object.keys(percentages) as LoadingState[]).map((state) => (
                 <ProgressBarSegment
                   key={`progress-bar-${state}`}
-                  color={colorFor(state)}
+                  color={STATE_META[state].color}
                   width={percentages[state]}
                   title={`${state} (${Math.round(percentages[state])}%)`}
                 />
